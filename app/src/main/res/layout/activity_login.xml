@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".loginActivity"
+    android:padding="0dp">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView"
+        android:src="@drawable/login_background"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="@dimen/login_page_column_width"
+            android:layout_height="@dimen/login_page_column_width"
+            android:id="@+id/imageView2"
+            android:src="@drawable/login_rea_logo"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom|center"
+            android:id="@+id/loginBottomLayout"
+            android:visibility="visible">
+
+            <Button
+                android:layout_width="@dimen/login_page_column_width"
+                android:layout_height="@dimen/login_page_button_height"
+                android:text="Студент"
+                android:id="@+id/loginBtnStudent"
+                android:background="@drawable/login_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="7dp"
+                android:textColor="#ffffff"
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="или"
+                android:id="@+id/loginTxtOr"
+                android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:layout_marginBottom="7dp" />
+
+            <Button
+                android:layout_width="@dimen/login_page_column_width"
+                android:layout_height="@dimen/login_page_button_height"
+                android:text="Преподаватель"
+                android:id="@+id/loginBtnLector"
+                android:textColor="#ffffff"
+                android:background="@drawable/login_button"
+                android:layout_marginBottom="50dp"
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сделано IT_lab Styleru"
+                android:id="@+id/loginTxtMadeBy"
+                android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:layout_marginBottom="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="bottom|center"
+            android:layout_weight="1"
+            android:id="@+id/login1BottomLayout"
+            android:visibility="gone">
+
+            <AutoCompleteTextView
+                android:layout_width="@dimen/login_page_column_width"
+                android:layout_height="@dimen/login_page_button_height"
+                android:id="@+id/login1EditID"
+                android:layout_marginBottom="30dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/login_button"
+                android:editable="true"
+                android:enabled="true"
+                android:textColorHint="#74f5f5f5"
+                android:textSize="16dp"
+                android:hint="Введите вашу группу"
+                android:gravity="center"
+                android:singleLine="true" />
+
+            <Button
+                android:layout_width="@dimen/login_page_column_width"
+                android:layout_height="@dimen/login_page_button_height"
+                android:text="Вход"
+                android:id="@+id/login1BtnEnter"
+                android:background="@drawable/login1_button_enter"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="45dp"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:enabled="true"
+                android:onClick="onEnterClick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сделано IT_lab Styleru"
+                android:id="@+id/login1MadeBy"
+                android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:layout_marginBottom="12dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#010101"
+        android:alpha="0.6"
+        android:id="@+id/darkLayout"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="@dimen/loading_circle_radius"
+            android:layout_height="@dimen/loading_circle_radius"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+</RelativeLayout>

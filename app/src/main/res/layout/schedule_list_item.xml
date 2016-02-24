@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="145dp"
+    android:paddingTop="15dp"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingBottom="15dp"
+    android:id="@+id/sch_relLayout">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView3"
+            android:src="@drawable/clock"
+            android:layout_weight="2"
+            android:scaleType="fitStart" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:50 - 13:20"
+            android:id="@+id/sch_txtTime"
+            android:textColor="#004777"
+            android:textSize="18dp"
+            android:textIsSelectable="false"
+            android:layout_weight="5" />
+
+        <ImageView
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:id="@+id/imageView4"
+            android:src="@drawable/location"
+            android:layout_weight="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ауд 315 \n(Нежинская к 2)"
+            android:id="@+id/sch_txtRoom"
+            android:lines="2"
+            android:maxLines="2"
+            android:minLines="1"
+            android:textColor="#616161"
+            android:textSize="12dp"
+            android:layout_weight="6" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
+        android:id="@+id/sch_txtInfo"
+        android:layout_below="@+id/sch_txtLesson"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentLeft="true"
+        android:gravity="bottom"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Основы Объектно-ориентированного Программирования"
+        android:id="@+id/sch_txtLesson"
+        android:textColor="#0076ff"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:maxLines="2" />
+
+</RelativeLayout>

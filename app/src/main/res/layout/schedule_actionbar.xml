@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:paddingRight="12dp"
+    android:paddingLeft="12dp"
+    android:background="#5169ff">
+
+    <ImageView
+        android:layout_height="36dp"
+        android:layout_width= "36dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_account"
+        android:padding="3dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/imgAccount"
+        android:background="@drawable/abc_item_background_holo_dark"
+        android:onClick="onActionBarClick" />?attr/actionBarSize
+        android:layout_height="?attr/actionBarSizedp"
+        android:id="@+id/imgAccount"
+        android:src="@drawable/icon_account"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:cropToPadding="false"
+        android:focusable="true"
+        android:adjustViewBounds="false"
+        android:background="@drawable/abc_item_background_holo_dark"
+        android:scaleType="fitCenter"
+        android:layout_alignParentStart="false"
+        android:padding="3dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/linLayInfo"
+        android:layout_centerInParent="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGroup"
+            android:singleLine="false"
+            android:textSize="20dp"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtWeek"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:id="@+id/imgSearch"
+        android:src="@drawable/icon_search"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:padding="3dp"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:background="@drawable/abc_item_background_holo_dark"
+        android:scaleType="fitCenter"
+        android:onClick="onActionBarClick" />
+</RelativeLayout>

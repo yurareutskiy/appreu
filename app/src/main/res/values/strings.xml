@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">REA Schedule</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login1_lector_placeholder">Введите вашу фамилию</string>
+    <string name="login1_student_placeholder">Введите вашу группу</string>
+
+    <string name="API_get_url">http://appreu.styleru.net/api/</string>
+    <string name="API_get_groups_url">http://appreu.styleru.net/api/groups</string>
+    <string name="API_get_lectors_url">http://appreu.styleru.net/api/lectors</string>
+    <string name="API_url">http://appreu.styleru.net/api/</string>
+    <string name="WHO_LECTOR">lectors</string>
+    <string name="WHO_GROUPS">groups</string>
+
+    <string name="shared_preferences_file_key">com.styleru.it_lab.reaschedule.preferences_file</string>
+    <string name="shared_preferences_id_key">memberID</string>
+    <string name="shared_preferences_name_key">memberName</string>
+    <string name="shared_preferences_who_key">memberWho</string>
+
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_activity_activity_account">activity_account</string>
+</resources>

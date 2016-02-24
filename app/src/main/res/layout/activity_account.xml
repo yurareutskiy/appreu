@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="styleru.it_lab.reaschedule.activity_account"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/account_background"
+        android:layout_weight="62">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ДКО-142б"
+                android:id="@+id/acc_txtGroup"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26 неделя"
+                android:id="@+id/acc_txtWeek"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textSize="16dp"
+                android:layout_marginTop="2dp" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageButton"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/login_button"
+                android:text="Сменить"
+                android:textColor="#ffffff"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:onClick="onChangeIDClick" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/accountPager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="38">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
