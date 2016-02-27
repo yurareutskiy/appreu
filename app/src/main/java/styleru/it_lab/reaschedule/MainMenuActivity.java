@@ -28,7 +28,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "MAIN_MENU_DEBUG";
     public static final String[] weekDays = new String[] {"Пн", "Вт", "Ср", "Чт", "Пт", "Сб",};
-    public static final String[] fullWeekDaysEng = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
     TextView actionBarWeek;
     LayoutInflater inflater;
