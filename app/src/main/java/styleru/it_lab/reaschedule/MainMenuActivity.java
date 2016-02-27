@@ -55,19 +55,34 @@ public class MainMenuActivity extends AppCompatActivity {
         myToolbar.setContentInsetsAbsolute(0, 0);
         setupActionBar();
 
+        //Делишки с SharedPreferences
+        if (!setupSharedPreferences())
+            return;
+
+        Log.i(DEBUG_TAG, "Attempt to get cached schedule");
+        weeks = MemoryOperations.getCachedSchedule(getApplicationContext(), memberWho, memberID);
+        Log.i(DEBUG_TAG, weeks.toString());
+
+        if (weeks.size() == 0)
+        {
+            //получение расписания
+            getSchedule();
+        }
+        else
+        {
+            Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
+            weekCount = weeks.size();
+            fillActionBarWithData();
+            fillScheduleWithData();
+        }
+
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        //Делишки с SharedPreferences
-        if (!setupSharedPreferences())
-            return;
 
-        //получение расписания
-        memberWhoUrl = memberWho.substring(0, memberWho.length() - 1);
-        getSchedule();
     }
 
     public void fillScheduleWithData()
@@ -147,7 +162,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     NetworkOperations.RequestTask.AsyncResponse response = new NetworkOperations.RequestTask.AsyncResponse() {
         @Override
-        public void processFinish(Object result) {
+        public void processFinish(Object result, String response) {
             if (result != null)
                 weeks = (SparseArray<Week>) result;
 
@@ -165,6 +180,8 @@ public class MainMenuActivity extends AppCompatActivity {
             else
             {
                 weekCount = weeks.size();
+                MemoryOperations.cacheSchedule(getApplicationContext(), response, memberWho, memberID);
+
                 fillActionBarWithData();
                 fillScheduleWithData();
             }
@@ -263,6 +280,7 @@ public class MainMenuActivity extends AppCompatActivity {
             return false;
         }
 
+        memberWhoUrl = memberWho.substring(0, memberWho.length() - 1);
         return true;
     }
 

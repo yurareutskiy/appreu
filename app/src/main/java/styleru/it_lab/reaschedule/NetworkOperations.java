@@ -39,11 +39,11 @@ public class NetworkOperations {
     public static class RequestTask extends AsyncTask<String, String, String> {
 
         public interface AsyncResponse {
-            void processFinish(Object result);
+            void processFinish(Object result, String response);
         }
 
-        public AsyncResponse delegate = null;
-        public String whatIsThat = "";
+        AsyncResponse delegate = null;
+        String whatIsThat = "";
 
         public RequestTask(AsyncResponse _delegate, String _whatIsThat) {
             delegate = _delegate;
@@ -100,13 +100,13 @@ public class NetworkOperations {
                 objResult = OtherOperations.parseSchedule(result);
             }
 
-            delegate.processFinish(objResult);
+            delegate.processFinish(objResult, result);
         }
 
         @Override
         protected void onCancelled() {
             Log.i(DEBUG_TAG, "Query cancelled.");
-            delegate.processFinish(null);
+            delegate.processFinish(null, "");
         }
     }
 

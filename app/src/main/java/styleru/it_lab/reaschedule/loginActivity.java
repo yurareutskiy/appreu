@@ -79,7 +79,7 @@ public class loginActivity extends Activity {
 
     NetworkOperations.RequestTask.AsyncResponse response = new NetworkOperations.RequestTask.AsyncResponse() {
         @Override
-        public void processFinish(Object result) {
+        public void processFinish(Object result, String response) {
             //запускается, когда запрос вернул ответ.
             if (result != null)
                 members = (HashMap<Integer, String>) result;

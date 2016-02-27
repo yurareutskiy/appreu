@@ -17,6 +17,7 @@
     <string name="shared_preferences_id_key">memberID</string>
     <string name="shared_preferences_name_key">memberName</string>
     <string name="shared_preferences_who_key">memberWho</string>
+    <string name="shared_preferences_schedule_key">schedule</string>
 
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="title_activity_activity_account">activity_account</string>

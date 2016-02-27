@@ -77,7 +77,7 @@ public class activity_account extends AppCompatActivity {
 
     NetworkOperations.RequestTask.AsyncResponse response = new NetworkOperations.RequestTask.AsyncResponse() {
         @Override
-        public void processFinish(Object result)
+        public void processFinish(Object result, String response)
         {
             if (result != null)
             {

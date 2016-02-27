@@ -9,6 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.SparseArray;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +52,36 @@ public class MemoryOperations {
         return returnMap;
     }
 
+    public static void cacheSchedule(Context context, String schedule, String who, int id)
+    {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE
+        );
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(context.getString(R.string.shared_preferences_schedule_key) + who + id, schedule);
+        editor.apply();
+        Log.i(DEBUG_TAG, "Schedule has been cached!");
+    }
+
+    public static SparseArray<Week> getCachedSchedule(Context context, String who, int id)
+    {
+        SparseArray<Week> returnArray;
+
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE
+        );
+        Log.i(DEBUG_TAG, "Getting schedule from cache!");
+
+        String response = sharedPref.getString(context.getString(R.string.shared_preferences_schedule_key) + who + id, "");
+        returnArray = OtherOperations.parseSchedule(response);
+
+        if (returnArray == null)
+            returnArray = new SparseArray<>();
+
+        Log.i(DEBUG_TAG, "Got schedule from cache! Size is:" + returnArray.size());
+        return returnArray;
+    }
+
 
 
     /*РАБОТА С SQLite*/
@@ -59,6 +93,13 @@ public class MemoryOperations {
         public static final String MEMBERS_ID_COLUMN = "id";
 
         public static final String DATABASE_TABLE_LECTORS = "sch_lectors";
+
+        public static final String DATABASE_TABLE_LESSONS = "sch_lessons";
+        public static final String LESSONS_COLUMN_WHO = "who";
+        public static final String LESSONS_COLUMN_WHO_ID = "who_id";
+        public static final String LESSONS_COLUMN_HASH_ID = "hash_id";
+        public static final String LESSONS_COLUMN_WEEK = "week";
+//        TODO запилить БДшку для расписания
 
         public ScheduleDBHelper (Context context)
         {
