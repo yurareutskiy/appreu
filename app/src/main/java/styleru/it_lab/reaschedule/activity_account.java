@@ -98,10 +98,10 @@ public class activity_account extends AppCompatActivity {
             }
             else
             {
-                if (whoIsEmpty == "groups")
+                if (whoIsEmpty.equals("groups"))
                     MemoryOperations.DBMembersSet(thisContext, membersGroups, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS);
-                else if (whoIsEmpty == "lectors")
-                    MemoryOperations.DBMembersSet(thisContext, membersGroups, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS);
+                else if (whoIsEmpty.equals("lectors"))
+                    MemoryOperations.DBMembersSet(thisContext, membersLectors, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS);
 
                 new ChangeIDDialogFragment().show(getSupportFragmentManager(), "DialogChangeID");
             }
@@ -246,21 +246,21 @@ public class activity_account extends AppCompatActivity {
         RadioGroup.OnCheckedChangeListener onCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String whatToSearch = "";
-                Log.i(DEBUG_TAG, "CHECHKED " + checkedId);
 
                 switch (checkedId) {
                     case R.id.radBStudent:
-                        whatToSearch = MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS;
+                        Log.i(DEBUG_TAG, "CHECHKED STUDENT");
                         txtChangeID.setHint(getString(R.string.login1_student_placeholder));
                         txtChangeID.setText("");
                         members = membersGroups;
+                        Log.i(DEBUG_TAG, "Students size: " + membersGroups.size());
                         break;
                     case R.id.radBLector:
-                        whatToSearch = MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS;
+                        Log.i(DEBUG_TAG, "CHECHKED LECTOR");
                         txtChangeID.setHint(getString(R.string.login1_lector_placeholder));
                         txtChangeID.setText("");
                         members = membersLectors;
+                        Log.i(DEBUG_TAG, "Lectors size: " + membersLectors.size());
                         break;
                     default:
                         return;

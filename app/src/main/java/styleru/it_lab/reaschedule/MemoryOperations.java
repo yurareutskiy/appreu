@@ -143,21 +143,16 @@ public class MemoryOperations {
 
         Cursor c = membersDB.query(table_name, null, null, null, null, null, null);
 
-        // ставим позицию курсора на первую строку выборки
-        // если в выборке нет строк, вернется false
         if (c.moveToFirst()) {
             // определяем номера столбцов по имени в выборке
             int idColIndex = c.getColumnIndex("id");
             int nameColIndex = c.getColumnIndex("name");
-
+            Log.d(DEBUG_TAG, "Getting members from table " + table_name);
             do {
                 int id = c.getInt(idColIndex);
                 String name = c.getString(nameColIndex);
                 members.put(id, name);
 
-                Log.d(DEBUG_TAG,
-                        "ID = " + c.getInt(idColIndex) +
-                        ", name = " + c.getString(nameColIndex));
             } while (c.moveToNext());
         } else
             Log.d(DEBUG_TAG, "0 rows");
@@ -195,9 +190,8 @@ public class MemoryOperations {
                     cv.put(ScheduleDBHelper.MEMBERS_NAME_COLUMN, value);
 
                     long rowID = membersDB.insert(table_name, null, cv);
-                    Log.d(DEBUG_TAG, "Inserted rowID: " + rowID);
                 }
-
+                Log.d(DEBUG_TAG, "Inserted rows into " + table_name);
                 membersDB.setTransactionSuccessful();
             }
             finally {

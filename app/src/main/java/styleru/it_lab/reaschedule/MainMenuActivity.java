@@ -1,5 +1,6 @@
 package styleru.it_lab.reaschedule;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,13 +55,29 @@ public class MainMenuActivity extends AppCompatActivity {
         myToolbar.setContentInsetsAbsolute(0, 0);
         setupActionBar();
 
+
+        getDataForSchedule();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.i(DEBUG_TAG, "Checking preferences for differences.");
+        if (checkIfPreferencesChanged())
+        {
+            getDataForSchedule();
+        }
+    }
+
+    private void getDataForSchedule()
+    {
         //Делишки с SharedPreferences
         if (!setupSharedPreferences())
             return;
 
         Log.i(DEBUG_TAG, "Attempt to get cached schedule");
         weeks = MemoryOperations.getCachedSchedule(getApplicationContext(), memberWho, memberID);
-        Log.i(DEBUG_TAG, weeks.toString());
 
         if (weeks.size() == 0)
         {
@@ -74,17 +91,9 @@ public class MainMenuActivity extends AppCompatActivity {
             fillActionBarWithData();
             fillScheduleWithData();
         }
-
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-    }
-
-    public void fillScheduleWithData()
+    private void fillScheduleWithData()
     {
         //делишки с получением текущей недели и текущего дня
 
@@ -126,6 +135,7 @@ public class MainMenuActivity extends AppCompatActivity {
         findViewById(R.id.refreshLinLay).setVisibility(View.GONE);
 
         viewPager.setAdapter(pagerAdapter);
+        viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(weekNumToIndex(currentWeek));
     }
@@ -263,6 +273,22 @@ public class MainMenuActivity extends AppCompatActivity {
                 actionBarWeek.setText(Integer.toString(currentWeek) + " неделя");
             }
         }
+    }
+
+    private boolean checkIfPreferencesChanged()
+    {
+        Map<String, String> result = MemoryOperations.getSharedPreferences(getApplicationContext());
+        int tmpMemberID = Integer.parseInt(result.get("ID"));
+        String tmpMemberName = result.get("name");
+        String tmpMemberWho = result.get("who");
+
+        if (tmpMemberID != memberID || !tmpMemberWho.equals(memberWho))
+        {
+            Log.i(DEBUG_TAG, "Preferences are different! " + memberID + "/" + memberWho + " was changed to " + tmpMemberID + "/" + tmpMemberWho);
+            MemoryOperations.putSharedPreferences(getApplicationContext(), tmpMemberID, tmpMemberName, tmpMemberWho);
+            return true;
+        }
+        return false;
     }
 
     private boolean setupSharedPreferences()
