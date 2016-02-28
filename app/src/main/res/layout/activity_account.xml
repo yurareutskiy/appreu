@@ -4,7 +4,7 @@
     tools:context="styleru.it_lab.reaschedule.activity_account"
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/account_background"
@@ -14,8 +14,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_gravity="center"
-            android:gravity="center">
+            android:id="@+id/accLayoutInfo">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -24,7 +25,7 @@
                 android:id="@+id/acc_txtGroup"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#ffffff"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -34,12 +35,12 @@
                 android:id="@+id/acc_txtWeek"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#ffffff"
-                android:textSize="16dp"
+                android:textSize="13dp"
                 android:layout_marginTop="2dp" />
 
             <Button
-                android:layout_width="120dp"
-                android:layout_height="30dp"
+                android:layout_width="97dp"
+                android:layout_height="25dp"
                 android:id="@+id/imageButton"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/login_button"
@@ -48,8 +49,43 @@
                 android:textSize="14dp"
                 android:layout_marginTop="12dp"
                 android:onClick="onChangeIDClick" />
+
         </LinearLayout>
-    </FrameLayout>
+
+        <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/accTabHost"
+            android:layout_alignParentBottom="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"></TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/txtEmpty" />
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/accountPager"

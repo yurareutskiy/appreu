@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,18 +41,95 @@ public class activity_account extends AppCompatActivity {
     ProgressDialog dialog;
     String whoIsEmpty;
     Context thisContext;
+    TabHost tabHost;
+    LayoutInflater inflater;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         thisContext = this;
+        inflater = LayoutInflater.from(getApplicationContext());
 
         if (!setupSharedPreferences())
             return;
 
+        viewPager = (ViewPager) findViewById(R.id.accountPager);
+        tabHost = (TabHost) findViewById(R.id.accTabHost);
+
         setHeaderText();
+        setHeaderTabs();
+        setViewPagerContent();
     }
+
+    private void setHeaderTabs()
+    {
+        tabHost.setup();
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("changings");
+        View tabView = inflater.inflate(R.layout.account_tab_header, null);
+        TextView tv = (TextView) tabView.findViewById(R.id.txtAccTabName);
+        tv.setText("Изменения");
+        tabSpec.setIndicator(tabView);
+        tabSpec.setContent(R.id.txtEmpty);
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("messages");
+        tabView = inflater.inflate(R.layout.account_tab_header, null);
+        tv = (TextView) tabView.findViewById(R.id.txtAccTabName);
+        tv.setText("Сообщения");
+        tabSpec.setIndicator(tabView);
+        tabSpec.setContent(R.id.txtEmpty);
+        tabHost.addTab(tabSpec);
+
+        tabHost.setCurrentTab(0);
+        tabHost.setOnTabChangedListener(onTabChangeListener);
+    }
+
+    TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
+        @Override
+        public void onTabChanged(String tabId) {
+            viewPager.setCurrentItem(tabHost.getCurrentTab());
+        }
+    };
+
+    private void setViewPagerContent()
+    {
+        View page;
+        List<View> pages = new ArrayList<View>();
+
+        page = inflater.inflate(R.layout.account_changings, null);
+        pages.add(page);
+
+        page = inflater.inflate(R.layout.account_messages, null);
+        pages.add(page);
+
+        SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
+
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.clearOnPageChangeListeners();
+        viewPager.addOnPageChangeListener(pageChangeListener);
+        viewPager.setCurrentItem(0);
+
+    }
+
+    ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            tabHost.setCurrentTab(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private boolean setupSharedPreferences()
     {
