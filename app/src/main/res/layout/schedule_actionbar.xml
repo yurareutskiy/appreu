@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:paddingRight="12dp"
@@ -16,20 +17,7 @@
         android:focusable="true"
         android:id="@+id/imgAccount"
         android:background="@drawable/abc_item_background_holo_dark"
-        android:onClick="onActionBarClick" />?attr/actionBarSize
-        android:layout_height="?attr/actionBarSizedp"
-        android:id="@+id/imgAccount"
-        android:src="@drawable/icon_account"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:clickable="true"
-        android:cropToPadding="false"
-        android:focusable="true"
-        android:adjustViewBounds="false"
-        android:background="@drawable/abc_item_background_holo_dark"
-        android:scaleType="fitCenter"
-        android:layout_alignParentStart="false"
-        android:padding="3dp" />
+        android:onClick="onActionBarClick" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -42,19 +30,21 @@
         android:layout_alignParentStart="false"
         android:gravity="center">
 
-        <TextView
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtGroup"
             android:singleLine="false"
             android:textSize="20dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            app:customFont="HelveticaNeueCyr_Medium"/>
 
-        <TextView
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtWeek"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            app:customFont="HelveticaNeueCyr_Light"/>
     </LinearLayout>
 
     <ImageView

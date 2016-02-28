@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AttrCustomFont">
+        <attr name="customFont" format="enum">
+            <enum name="HelveticaNeueCyr_Light" value="0"/>
+            <enum name="HelveticaNeueCyr_Medium" value="1"/>
+            <enum name="HelveticaNeueCyr_Roman" value="2"/>
+            <enum name="HelveticaNeueCyr_Bold" value="3"/>
+        </attr>
+    </declare-styleable>
+</resources>

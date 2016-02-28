@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent" android:layout_height="145dp"
     android:paddingTop="15dp"
     android:paddingRight="20dp"
@@ -21,7 +22,7 @@
             android:layout_weight="2"
             android:scaleType="fitStart" />
 
-        <TextView
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="11:50 - 13:20"
@@ -29,7 +30,8 @@
             android:textColor="#004777"
             android:textSize="18dp"
             android:textIsSelectable="false"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            app:customFont="HelveticaNeueCyr_Roman"/>
 
         <ImageView
             android:layout_width="23dp"
@@ -38,7 +40,7 @@
             android:src="@drawable/location"
             android:layout_weight="3" />
 
-        <TextView
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ауд 315 \n(Нежинская к 2)"
@@ -48,10 +50,11 @@
             android:minLines="1"
             android:textColor="#616161"
             android:textSize="12dp"
-            android:layout_weight="6" />
+            android:layout_weight="6"
+            app:customFont="HelveticaNeueCyr_Light"/>
     </LinearLayout>
 
-    <TextView
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
@@ -62,20 +65,22 @@
         android:layout_alignWithParentIfMissing="false"
         android:layout_alignParentLeft="true"
         android:gravity="bottom"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        app:customFont="HelveticaNeueCyr_Light"
+        android:textColor="#616161" />
 
-    <TextView
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Основы Объектно-ориентированного Программирования"
         android:id="@+id/sch_txtLesson"
         android:textColor="#0076ff"
-        android:textStyle="bold"
-        android:textSize="17dp"
+        android:textSize="18dp"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:maxLines="2" />
+        android:maxLines="2"
+        app:customFont="HelveticaNeueCyr_Bold" />
 
 </RelativeLayout>

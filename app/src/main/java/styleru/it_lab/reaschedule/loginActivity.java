@@ -122,33 +122,14 @@ public class LoginActivity extends Activity {
         }
 
         //Шрифты
-        Typeface HelvLight = Typeface.createFromAsset(getAssets(), "fonts/HelveticaNeueCyr-Light.otf");
-        Typeface HelvMedium = Typeface.createFromAsset(getAssets(), "fonts/HelveticaNeueCyr-Medium.otf");
-        Typeface HelvRoman = Typeface.createFromAsset(getAssets(), "fonts/HelveticaNeueCyr-Roman.otf");
-
         Button btnLector = (Button) findViewById(R.id.loginBtnLector);
         Button btnStudent = (Button) findViewById(R.id.loginBtnStudent);
-        TextView txtMadeBy = (TextView) findViewById(R.id.loginTxtMadeBy);
-        TextView txtOr = (TextView) findViewById(R.id.loginTxtOr);
         Button btnEnter = (Button) findViewById(R.id.login1BtnEnter);
         editID = (AutoCompleteTextView) findViewById(R.id.login1EditID);
-        TextView txt1MadeBy = (TextView) findViewById(R.id.login1MadeBy);
 
-        btnLector.setTypeface(HelvLight);
-        btnLector.setTransformationMethod(null);
+        //btnLector.setTransformationMethod(null);
         btnLector.setOnClickListener(onClickListener);
-
-        btnStudent.setTypeface(HelvLight);
-        btnStudent.setTransformationMethod(null);
         btnStudent.setOnClickListener(onClickListener);
-
-        btnEnter.setTypeface(HelvRoman);
-        btnEnter.setTransformationMethod(null);
-
-        txtMadeBy.setTypeface(HelvLight);
-        txtOr.setTypeface(HelvMedium);
-        editID.setTypeface(HelvLight);
-        txt1MadeBy.setTypeface(HelvLight);
 
         //
         loginLayout = (LinearLayout) findViewById(R.id.loginBottomLayout);
