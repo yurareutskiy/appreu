@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Operations;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

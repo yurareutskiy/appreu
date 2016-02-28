@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Operations;
 
 
 import android.content.ContentValues;
@@ -13,6 +13,9 @@ import android.util.SparseArray;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import styleru.it_lab.reaschedule.R;
+import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class MemoryOperations {
     public static final String DEBUG_TAG = "MEMORY_OPERATIONS_DEBUG";

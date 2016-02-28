@@ -1,6 +1,5 @@
 package styleru.it_lab.reaschedule;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +23,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
+import styleru.it_lab.reaschedule.Adapters.ScheduleAdapter;
+import styleru.it_lab.reaschedule.Operations.MemoryOperations;
+import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+import styleru.it_lab.reaschedule.Operations.OtherOperations;
+import styleru.it_lab.reaschedule.Schedule.Lesson;
+import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -311,7 +318,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void goToLoginActivity()
     {
-        Intent intent = new Intent(this, loginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -365,7 +372,7 @@ public class MainMenuActivity extends AppCompatActivity {
         if (id == R.id.imgAccount)
         {
             //Toast.makeText(getApplicationContext(), "Личный кабинет скоро будет доступен!", Toast.LENGTH_SHORT).show();
-            Intent accountIntent = new Intent(this, activity_account.class);
+            Intent accountIntent = new Intent(this, AccountActivity.class);
             startActivity(accountIntent);
         }
         else if (id == R.id.imgSearch)

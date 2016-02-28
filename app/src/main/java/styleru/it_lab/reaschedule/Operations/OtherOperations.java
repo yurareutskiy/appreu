@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Operations;
 
 
 import android.util.SparseArray;
@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import styleru.it_lab.reaschedule.Schedule.Day;
+import styleru.it_lab.reaschedule.Schedule.Lesson;
+import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class OtherOperations {
 

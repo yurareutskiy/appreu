@@ -1,21 +1,21 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Schedule;
 
 import java.util.List;
 
 public class Lesson {
 
-    int number;
-    String auditoty;
-    int housing;
+    public int number;
+    public String auditoty;
+    public int housing;
 
-    String name;
-    String beginsAt;
-    String endsAt;
-    String type;
-    String lector;
-    String building;
-    List<String> groups;
-    boolean empty;
+    public String name;
+    public String beginsAt;
+    public String endsAt;
+    public String type;
+    public String lector;
+    public String building;
+    public List<String> groups;
+    public boolean empty;
 
     public Lesson (int _number, String _auditory, int _housing, String _name, String _beginsAt,
                    String _endsAt, String _type, String _lector, List<String> _groups, String _building)

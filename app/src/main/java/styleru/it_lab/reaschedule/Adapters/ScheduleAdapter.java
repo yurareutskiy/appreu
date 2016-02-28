@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Adapters;
 
 import java.util.ArrayList;
 import android.content.Context;
@@ -6,15 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import styleru.it_lab.reaschedule.R;
+import styleru.it_lab.reaschedule.Schedule.Lesson;
 
 public class ScheduleAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;
     ArrayList<Lesson> objects;
 
-    ScheduleAdapter(Context context, ArrayList<Lesson> lessons) {
+    public ScheduleAdapter(Context context, ArrayList<Lesson> lessons) {
         ctx = context;
         objects = lessons;
         lInflater = (LayoutInflater) ctx

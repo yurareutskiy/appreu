@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Adapters;
 
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;

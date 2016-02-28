@@ -20,7 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class loginActivity extends Activity {
+import styleru.it_lab.reaschedule.Operations.MemoryOperations;
+import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+
+public class LoginActivity extends Activity {
 
     LinearLayout loginLayout;
     LinearLayout login1Layout;

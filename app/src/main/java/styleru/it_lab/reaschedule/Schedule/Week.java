@@ -1,4 +1,6 @@
-package styleru.it_lab.reaschedule;
+package styleru.it_lab.reaschedule.Schedule;
+
+import styleru.it_lab.reaschedule.Schedule.Day;
 
 public class Week {
 

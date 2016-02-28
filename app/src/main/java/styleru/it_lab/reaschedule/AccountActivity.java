@@ -27,7 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class activity_account extends AppCompatActivity {
+import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
+import styleru.it_lab.reaschedule.Operations.MemoryOperations;
+import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+import styleru.it_lab.reaschedule.Operations.OtherOperations;
+
+public class AccountActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "ACCOUNT_ACTIVITY_DEBUG";
 
@@ -150,7 +155,7 @@ public class activity_account extends AppCompatActivity {
 
     private void goToLoginActivity()
     {
-        Intent intent = new Intent(this, loginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
