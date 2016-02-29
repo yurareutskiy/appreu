@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.R;
 import styleru.it_lab.reaschedule.Schedule.Lesson;
 
@@ -15,12 +16,15 @@ public class ScheduleAdapter extends BaseAdapter {
     Context ctx;
     LayoutInflater lInflater;
     ArrayList<Lesson> objects;
+    String memberWho = "";
 
     public ScheduleAdapter(Context context, ArrayList<Lesson> lessons) {
         ctx = context;
         objects = lessons;
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        memberWho = MemoryOperations.getSharedPreferences(ctx).get("who");
     }
 
     // кол-во элементов
@@ -56,8 +60,8 @@ public class ScheduleAdapter extends BaseAdapter {
             ((TextView) view.findViewById(R.id.sch_txtTime)).setText(p.beginsAt + " - " + p.endsAt);
             ((TextView) view.findViewById(R.id.sch_txtLesson)).setText(p.name);
             ((TextView) view.findViewById(R.id.sch_txtRoom)).setText("ауд " + p.auditoty + "\n"+ p.building + " к " + p.housing);
-            String weeks = "";
 
+            String weeks = "";
             if (p.week_start == p.week_end) {
                 weeks = Integer.toString(p.week_start) + " неделя";
             }
@@ -65,9 +69,26 @@ public class ScheduleAdapter extends BaseAdapter {
                 weeks = Integer.toString(p.week_start) + " - " + Integer.toString(p.week_end) + " недели";
             }
 
+            String lector = "";
+            if (memberWho.equals("groups")) {
+                lector = " " + p.lector;
+            }
+            else {
+                for (int i = 0; i < p.groups.size(); i++)
+                {
+                    String group = p.groups.get(i);
+                    if (i == p.groups.size() - 1) {
+                        lector += " " + group;
+                    }
+                    else {
+                        lector += " " + group + ", ";
+                    }
+                }
+            }
 
 
-            ((TextView) view.findViewById(R.id.sch_txtInfo)).setText(p.type + " | " + weeks + " | " + p.lector);
+
+            ((TextView) view.findViewById(R.id.sch_txtInfo)).setText(p.type + " | " + weeks + " |" + lector);
         }
         else
         {
