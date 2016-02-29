@@ -21,11 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
 import styleru.it_lab.reaschedule.Adapters.ScheduleAdapter;
+import styleru.it_lab.reaschedule.Operations.DateOperations;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
@@ -61,7 +63,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         myToolbar.setContentInsetsAbsolute(0, 0);
         setupActionBar();
-
 
         getDataForSchedule();
     }
@@ -110,12 +111,14 @@ public class MainMenuActivity extends AppCompatActivity {
         View page;
         TabHost tabHost;
         TabHost.TabSpec tabSpec;
+        int tmpCurrentDay = DateOperations.getCurrentDayNum();
 
         for (int weekIterator = 0; weekIterator < weekCount; weekIterator++)
         {
             page = inflater.inflate(R.layout.week_schedule, null);
             tabHost = (TabHost) page.findViewById(R.id.tabHost);
             tabHost.setup();
+            int tmpWeekNum = weeks.get(weekIterator).getWeekNum();
 
             for (int dayIterator = 0; dayIterator < 6; dayIterator++)
             {
@@ -130,7 +133,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
                 tabHost.addTab(tabSpec);
             }
-            tabHost.setCurrentTab(0);
+            if (tmpWeekNum == currentWeek)
+                tabHost.setCurrentTab(tmpCurrentDay);
+            else
+                tabHost.setCurrentTab(0);
+
             pages.add(page);
         }
 
@@ -277,6 +284,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
 
                 actionBarWeek = (TextView) linearLayout.getChildAt(1);
+                currentWeek = DateOperations.getCurrentWeekNum();
+
                 actionBarWeek.setText(Integer.toString(currentWeek) + " неделя");
             }
         }

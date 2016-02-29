@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
+import styleru.it_lab.reaschedule.Operations.DateOperations;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
@@ -37,6 +38,7 @@ public class AccountActivity extends AppCompatActivity {
     public static final String DEBUG_TAG = "ACCOUNT_ACTIVITY_DEBUG";
 
     int memberID = 0;
+    int currentWeek = 26;
     String memberName = "";
     String memberWho = "";
     TextView txtMemberName;
@@ -56,6 +58,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         thisContext = this;
         inflater = LayoutInflater.from(getApplicationContext());
+        currentWeek = DateOperations.getCurrentWeekNum();
 
         if (!setupSharedPreferences())
             return;
@@ -230,6 +233,7 @@ public class AccountActivity extends AppCompatActivity {
     {
         txtMemberName = (TextView) findViewById(R.id.acc_txtGroup);
         txtWeek = (TextView) findViewById(R.id.acc_txtWeek);
+        txtWeek.setText(Integer.toString(currentWeek) + " неделя");
 
         if (memberWho.equals(getString(R.string.WHO_LECTOR))) {
             txtMemberName.setText(OtherOperations.shortName(memberName));
