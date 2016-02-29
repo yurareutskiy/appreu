@@ -7,6 +7,8 @@ public class Lesson {
     public int number;
     public String auditoty;
     public int housing;
+    public int week_start;
+    public int week_end;
 
     public String name;
     public String beginsAt;
@@ -18,7 +20,7 @@ public class Lesson {
     public boolean empty;
 
     public Lesson (int _number, String _auditory, int _housing, String _name, String _beginsAt,
-                   String _endsAt, String _type, String _lector, List<String> _groups, String _building)
+                   String _endsAt, String _type, String _lector, List<String> _groups, String _building, int _week_start, int _week_end)
     {
         number = _number;
         auditoty = _auditory;
@@ -30,6 +32,8 @@ public class Lesson {
         groups = _groups;
         building = _building;
         empty = false;
+        week_start = _week_start;
+        week_end = _week_end;
 
         if (type.equals("Л"))
             type = "Лекция";

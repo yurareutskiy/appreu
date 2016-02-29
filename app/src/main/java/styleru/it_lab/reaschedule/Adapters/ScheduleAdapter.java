@@ -56,7 +56,18 @@ public class ScheduleAdapter extends BaseAdapter {
             ((TextView) view.findViewById(R.id.sch_txtTime)).setText(p.beginsAt + " - " + p.endsAt);
             ((TextView) view.findViewById(R.id.sch_txtLesson)).setText(p.name);
             ((TextView) view.findViewById(R.id.sch_txtRoom)).setText("ауд " + p.auditoty + "\n"+ p.building + " к " + p.housing);
-            ((TextView) view.findViewById(R.id.sch_txtInfo)).setText(p.type + " | " + "хх - хх недели" + " | " + p.lector);
+            String weeks = "";
+
+            if (p.week_start == p.week_end) {
+                weeks = Integer.toString(p.week_start) + " неделя";
+            }
+            else {
+                weeks = Integer.toString(p.week_start) + " - " + Integer.toString(p.week_end) + " недели";
+            }
+
+
+
+            ((TextView) view.findViewById(R.id.sch_txtInfo)).setText(p.type + " | " + weeks + " | " + p.lector);
         }
         else
         {

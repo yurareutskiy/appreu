@@ -76,11 +76,6 @@ public class OtherOperations {
             JSONObject answer = new JSONObject(result);
 
             JSONObject successObj = answer.getJSONObject("success");
-
-            //currentTimestamp = successObj.getInt("timestamp"); // метка
-            //currentWeek = successObj.getInt("current_week"); //Номер текущей учебной недели от сервака
-            //TODO: сделать определение приложением текущей недели и текущего дня недели + время
-
             JSONArray dataArray = successObj.getJSONArray("data");
 
             for (int i = 0; i < dataArray.length(); i++)
@@ -135,17 +130,22 @@ public class OtherOperations {
                                 int housing = dataLesson.getInt("housing");
                                 String lessonStart = dataLesson.getString("lesson_start");
                                 String lessonEnd = dataLesson.getString("lesson_end");
+                                int week_start = dataLesson.getInt("week_start");
+                                int week_end = dataLesson.getInt("week_end");
 
                                 JSONArray JSONGroups = dataLesson.getJSONArray("groups");
                                 List<String> groups = new ArrayList<String>();
-                                for (int j = 0; j < JSONGroups.length(); j++)
+
+
                                 {
-                                    String group = JSONGroups.getString(j);
-                                    groups.add(group);
+                                    for (int j = 0; j < JSONGroups.length(); j++) {
+                                        String group = JSONGroups.getString(j);
+                                        groups.add(group);
+                                    }
                                 }
 
                                 Lesson curLesson = new Lesson(lessonIterator, room, housing, discipline, lessonStart, lessonEnd, lessonType, lector,
-                                        groups, building);
+                                        groups, building, week_start, week_end);
                                 lessonsList.add(curLesson);
                             }
                         }
