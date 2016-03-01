@@ -194,7 +194,7 @@ public class MainMenuActivity extends AppCompatActivity {
             {
                 Log.i(DEBUG_TAG, "Пришел пустой результат!");
                 if (result == null)
-                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getApplicationContext(), "Неверный ответ сервера. Попробуйте позже.", Toast.LENGTH_SHORT).show();
 

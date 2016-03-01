@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent" android:layout_height="145dp"
+    android:layout_width="fill_parent" android:layout_height="150dp"
     android:paddingTop="15dp"
     android:paddingRight="20dp"
     android:paddingLeft="20dp"
@@ -51,7 +51,8 @@
             android:textColor="#616161"
             android:textSize="12dp"
             android:layout_weight="6"
-            app:customFont="HelveticaNeueCyr_Light"/>
+            app:customFont="HelveticaNeueCyr_Light"
+            android:lineSpacingMultiplier="1.2" />
     </LinearLayout>
 
     <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
@@ -67,7 +68,8 @@
         android:gravity="bottom"
         android:layout_alignParentStart="true"
         app:customFont="HelveticaNeueCyr_Light"
-        android:textColor="#616161" />
+        android:textColor="#616161"
+        android:lineSpacingMultiplier="1.2" />
 
     <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="fill_parent"
@@ -81,6 +83,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLines="2"
-        app:customFont="HelveticaNeueCyr_Bold" />
+        app:customFont="HelveticaNeueCyr_Bold"
+        android:lineSpacingMultiplier="1.2" />
 
 </RelativeLayout>
