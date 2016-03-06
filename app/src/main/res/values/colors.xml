@@ -2,4 +2,6 @@
 <resources>
     <color name="schedule_blue_light">#0076ff</color>
     <color name="schedule_blue_dark">#004777</color>
+    <color name="apptheme_color">#b3c4cb</color>
+    <color name="white">#FFFFFF</color>
 </resources>

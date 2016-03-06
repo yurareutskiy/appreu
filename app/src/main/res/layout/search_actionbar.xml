@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:paddingRight="12dp"
+    android:paddingLeft="12dp"
+    android:background="@color/schedule_blue_light"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+
+    <styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont
+        style="@style/AutoCompleteTextViewAppTheme"
+        android:id="@+id/searchTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSearch"
+        android:inputType="textAutoComplete|textAutoCorrect"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#bdf5f5f5"
+        android:hint="@string/search"
+        app:customFont="HelveticaNeueCyr_Light"
+        android:editable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_toLeftOf="@+id/imgSearch"
+        android:layout_toStartOf="@+id/imgSearch"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="false" />
+
+    <ImageView
+        android:contentDescription="startSearch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imgSearch"
+        android:src="@drawable/icon_search"
+        android:clickable="true"
+        android:padding="6dp"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:background="@drawable/abc_item_background_holo_dark"
+        android:scaleType="fitCenter"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

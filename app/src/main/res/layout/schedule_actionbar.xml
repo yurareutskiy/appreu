@@ -5,14 +5,14 @@
     android:layout_height="?attr/actionBarSize"
     android:paddingRight="12dp"
     android:paddingLeft="12dp"
-    android:background="#5169ff">
+    android:background="@color/schedule_blue_light">
 
     <ImageView
-        android:layout_height="36dp"
-        android:layout_width= "36dp"
+        android:layout_height="40dp"
+        android:layout_width= "40dp"
         android:layout_centerVertical="true"
         android:src="@drawable/icon_account"
-        android:padding="3dp"
+        android:padding="6dp"
         android:clickable="true"
         android:focusable="true"
         android:id="@+id/imgAccount"
@@ -48,14 +48,14 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/imgSearch"
         android:src="@drawable/icon_search"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:clickable="true"
-        android:padding="3dp"
+        android:padding="6dp"
         android:focusable="true"
         android:focusableInTouchMode="false"
         android:background="@drawable/abc_item_background_holo_dark"

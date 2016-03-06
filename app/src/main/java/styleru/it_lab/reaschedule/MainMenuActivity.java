@@ -380,13 +380,14 @@ public class MainMenuActivity extends AppCompatActivity {
         int id = v.getId();
         if (id == R.id.imgAccount)
         {
-            //Toast.makeText(getApplicationContext(), "Личный кабинет скоро будет доступен!", Toast.LENGTH_SHORT).show();
             Intent accountIntent = new Intent(this, AccountActivity.class);
             startActivity(accountIntent);
         }
         else if (id == R.id.imgSearch)
         {
-            Toast.makeText(getApplicationContext(), "Поиск скоро будет доступен!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Поиск скоро будет доступен!", Toast.LENGTH_SHORT).show();
+            Intent searchIntent = new Intent(this, SearchActivity.class);
+            startActivity(searchIntent);
         }
     }
 }

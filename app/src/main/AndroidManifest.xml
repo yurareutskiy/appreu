@@ -26,15 +26,25 @@
             android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTop">
         </activity>
-
         <activity
             android:name=".AccountActivity"
             android:label="@string/title_activity_activity_account"
-            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenuActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="styleru.it_lab.reaschedule.MainMenuActivity" />
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".MainMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="styleru.it_lab.reaschedule.MainMenuActivity" />

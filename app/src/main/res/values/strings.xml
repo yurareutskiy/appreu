@@ -21,4 +21,6 @@
 
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="title_activity_activity_account">activity_account</string>
+    <string name="title_activity_search">Поиск</string>
+    <string name="search">Поиск</string>
 </resources>
