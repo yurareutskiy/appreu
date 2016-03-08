@@ -13,7 +13,6 @@ public class DateOperations {
 
     public static int getCurrentWeekNum()
     {
-        String str = "Jun 13 2003 23:11:52.454 UTC";
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         try {
             Calendar c = Calendar.getInstance();
@@ -42,4 +41,25 @@ public class DateOperations {
         return day;
     }
 
+    public static int getCurrentLessonNumber()
+    {
+        final String[] lessonStartTime = {"08:30", "10:10", "11:50", "14:00", "15:40", "17:20", "19:00", "20:50"};
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar c = Calendar.getInstance();
+        String currentTime = df.format(c.getTime());
+        Log.i(DEBUG_TAG, "Current time is: " + currentTime);
+
+        int currentLesson = 10;
+
+        for (int i = 0; i < lessonStartTime.length; i++)
+        {
+            if (lessonStartTime[i].compareTo(currentTime) < 0)
+            {
+                currentLesson = i + 1;
+            }
+            else break;
+        }
+
+        return currentLesson;
+    }
 }

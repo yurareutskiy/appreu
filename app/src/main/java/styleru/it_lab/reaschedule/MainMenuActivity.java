@@ -47,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity {
     String memberWho = "";
     String memberWhoUrl = "";
     int currentWeek = 26;
+    int currentDay = 0;
     int weekCount = 0;
     Context thisContext = this;
     SparseArray<Week> weeks = new SparseArray<Week>();
@@ -111,7 +112,7 @@ public class MainMenuActivity extends AppCompatActivity {
         View page;
         TabHost tabHost;
         TabHost.TabSpec tabSpec;
-        int tmpCurrentDay = DateOperations.getCurrentDayNum();
+        currentDay = DateOperations.getCurrentDayNum();
 
         for (int weekIterator = 0; weekIterator < weekCount; weekIterator++)
         {
@@ -122,7 +123,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
             for (int dayIterator = 0; dayIterator < 6; dayIterator++)
             {
-                tabSpec = tabHost.newTabSpec(Integer.toString(weekIterator)+"."+Integer.toString(dayIterator));
+                tabSpec = tabHost.newTabSpec(Integer.toString(weekIterator)+"."+Integer.toString(dayIterator)+"."+Integer.toString(tmpWeekNum));
 
                 View tabView = getLayoutInflater().inflate(R.layout.tab_header, null);
                 TextView tv = (TextView) tabView.findViewById(R.id.tabTitleText);
@@ -134,7 +135,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 tabHost.addTab(tabSpec);
             }
             if (tmpWeekNum == currentWeek)
-                tabHost.setCurrentTab(tmpCurrentDay);
+                tabHost.setCurrentTab(currentDay);
             else
                 tabHost.setCurrentTab(0);
 
@@ -215,10 +216,24 @@ public class MainMenuActivity extends AppCompatActivity {
         @Override
         public View createTabContent(String tag) {
 
-            ArrayList<Lesson> lessons = getLessonsData(tag);
+            String[] splitString = tag.split("\\.");
+            int weekNum = Integer.parseInt(splitString[0]);
+            int dayNum = Integer.parseInt(splitString[1]);
+            int currentWeekNum = Integer.parseInt(splitString[2]);
+            boolean isCurrent = currentWeekNum == currentWeek && dayNum == currentDay;
+            if (isCurrent)
+            {
+                Log.i(DEBUG_TAG, "isCurrent is true!");
+            }
+            else
+            {
+                Log.i(DEBUG_TAG, "isCurrent is false! " + weekNum + "/" + currentWeek + "; " + dayNum + "/" + currentDay);
+            }
+
+            ArrayList<Lesson> lessons = getLessonsData(tag, weekNum, dayNum);
             if (lessons.size() != 0)
             {
-                ScheduleAdapter schAdapter = new ScheduleAdapter(getApplicationContext(), lessons);
+                ScheduleAdapter schAdapter = new ScheduleAdapter(getApplicationContext(), lessons, isCurrent);
 
                 ListView listContent = (ListView) inflater.inflate(R.layout.day_list_view, null);
                 listContent.setAdapter(schAdapter);
@@ -234,12 +249,8 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     };
 
-    private ArrayList<Lesson> getLessonsData(String tag)
+    private ArrayList<Lesson> getLessonsData(String tag, int weekNum, int dayNum)
     {
-        String[] splitString = tag.split("\\.");
-        int weekNum = Integer.parseInt(splitString[0]);
-        int dayNum = Integer.parseInt(splitString[1]);
-
         Lesson[] lessonsAtThisDay = weeks.get(weekNum).getDay(dayNum).getLessons();
         ArrayList<Lesson> list = new ArrayList<Lesson>();
         for (int i = 0; i < lessonsAtThisDay.length; i++)

@@ -2,7 +2,6 @@ package styleru.it_lab.reaschedule;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -121,13 +119,10 @@ public class LoginActivity extends Activity {
             return;
         }
 
-        //Шрифты
         Button btnLector = (Button) findViewById(R.id.loginBtnLector);
         Button btnStudent = (Button) findViewById(R.id.loginBtnStudent);
-        Button btnEnter = (Button) findViewById(R.id.login1BtnEnter);
         editID = (AutoCompleteTextView) findViewById(R.id.login1EditID);
 
-        //btnLector.setTransformationMethod(null);
         btnLector.setOnClickListener(onClickListener);
         btnStudent.setOnClickListener(onClickListener);
 

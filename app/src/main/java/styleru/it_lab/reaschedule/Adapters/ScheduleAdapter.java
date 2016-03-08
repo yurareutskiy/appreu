@@ -1,6 +1,8 @@
 package styleru.it_lab.reaschedule.Adapters;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import styleru.it_lab.reaschedule.Operations.DateOperations;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.R;
 import styleru.it_lab.reaschedule.Schedule.Lesson;
@@ -17,6 +20,7 @@ public class ScheduleAdapter extends BaseAdapter {
     LayoutInflater lInflater;
     ArrayList<Lesson> objects;
     String memberWho = "";
+    boolean current = false;
 
     public ScheduleAdapter(Context context, ArrayList<Lesson> lessons) {
         ctx = context;
@@ -24,6 +28,16 @@ public class ScheduleAdapter extends BaseAdapter {
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        memberWho = MemoryOperations.getSharedPreferences(ctx).get("who");
+    }
+
+    public ScheduleAdapter(Context context, ArrayList<Lesson> lessons, boolean _current) {
+        ctx = context;
+        objects = lessons;
+        lInflater = (LayoutInflater) ctx
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        current = _current;
         memberWho = MemoryOperations.getSharedPreferences(ctx).get("who");
     }
 
@@ -47,13 +61,22 @@ public class ScheduleAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // используем созданные, но не используемые view
-        View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.schedule_list_item, parent, false);
-        }
 
         Lesson p = getLesson(position);
+
+        // используем созданные, но не используемые view
+        View view = convertView;
+        if (view == null)
+        {
+            if (current && p.number == DateOperations.getCurrentLessonNumber())
+            {
+                view = lInflater.inflate(R.layout.schedule_list_item_current, parent, false);
+            }
+            else
+            {
+                view = lInflater.inflate(R.layout.schedule_list_item, parent, false);
+            }
+        }
 
         // заполняем View в пункте списка данными из класса
         if (!p.empty) {

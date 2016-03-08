@@ -12,15 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
+import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -28,9 +32,11 @@ public class SearchActivity extends AppCompatActivity {
     ActionBar actionBar;
     Dialog dialog;
     AutoCompleteTextViewCustomFont searchTxt;
-    Map<Integer, String> groups;
-    Map<Integer, String> lectors;
-    Map<Integer, String> members;
+    Map<Integer, String> groups = new HashMap<>();
+    Map<Integer, String> lectors = new HashMap<>();
+    Map<Integer, String> members = new HashMap<>();
+    String missing = "";
+    String DBTable = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,81 @@ public class SearchActivity extends AppCompatActivity {
     {
         dialog = ProgressDialog.show(this, "", "Загрузка...", true, false);
 
-        Map<Integer, String> members = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS);
-        groups = members;
+        groups = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS);
+        lectors = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS);
 
-        Map<Integer, String> lectors = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS);
+        if (groups.size() == 0)
+        {
+            missing = "groups";
+            DBTable = MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS;
+        }
+        else if (lectors.size() == 0)
+        {
+            missing = "lectors";
+            DBTable = MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS;
+        }
+
+        if (!missing.equals(""))
+        {
+            if (NetworkOperations.isConnectionAvailable(this))
+            {
+                String stringUrl = getString(R.string.API_get_url) + missing + "/";
+                new NetworkOperations.RequestTask(response, "members").execute(stringUrl);
+            }
+            else
+            {
+                Toast.makeText(this, "Невозможно установить интернет-соединение!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            fillListWithData();
+        }
+
+    }
+
+    NetworkOperations.RequestTask.AsyncResponse response = new NetworkOperations.RequestTask.AsyncResponse() {
+        @Override
+        public void processFinish(Object result, String response) {
+            //запускается, когда запрос вернул ответ.
+            if (result != null)
+                members = (HashMap<Integer, String>) result;
+
+            if (members.isEmpty())
+            {
+                Log.i(DEBUG_TAG, "Пришел пустой результат!");
+                if (result == null)
+                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Неверный ответ сервера. Попробуйте позже.", Toast.LENGTH_SHORT).show();
+
+                dialog.cancel();
+            }
+            else
+            {
+                Log.i(DEBUG_TAG, "Пришли результаты. Размер: " + members.size());
+                MemoryOperations.DBMembersSet(getApplicationContext(), members, DBTable);
+                fillListWithData();
+            }
+        }
+    };
+
+    private void fillListWithData()
+    {
+        if (missing.equals("groups"))
+        {
+            groups = members;
+        }
+        else if (missing.equals("lectors"))
+        {
+            lectors = members;
+            members = groups;
+        }
+        else
+        {
+            members = groups;
+        }
+
         int key = members.size();
         for (Map.Entry<Integer, String> e : lectors.entrySet())
         {
@@ -87,25 +164,4 @@ public class SearchActivity extends AppCompatActivity {
         actionBar.setCustomView(actionBarView);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_search, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

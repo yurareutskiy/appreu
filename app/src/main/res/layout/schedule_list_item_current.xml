@@ -2,17 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent" android:layout_height="150dp"
-    android:paddingTop="15dp"
-    android:paddingRight="20dp"
-    android:paddingLeft="20dp"
-    android:paddingBottom="15dp"
-    android:id="@+id/sch_relLayout">
+    android:id="@+id/sch_relLayout"
+    android:background="#e3e3e3">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical">
+        android:gravity="left|center_vertical"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <ImageView
             android:layout_width="20dp"
@@ -69,7 +69,10 @@
         android:layout_alignParentStart="true"
         app:customFont="HelveticaNeueCyr_Light"
         android:textColor="#616161"
-        android:lineSpacingMultiplier="1.2" />
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp" />
 
     <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="fill_parent"
@@ -84,6 +87,14 @@
         android:layout_alignParentStart="true"
         android:maxLines="2"
         app:customFont="HelveticaNeueCyr_Bold"
-        android:lineSpacingMultiplier="1.2" />
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <ImageView
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:id="@+id/imgVerticalLine"
+        android:background="@color/schedule_blue_dark" />
 
 </RelativeLayout>

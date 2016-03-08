@@ -158,7 +158,7 @@ public class MemoryOperations {
 
             } while (c.moveToNext());
         } else
-            Log.d(DEBUG_TAG, "0 rows");
+            Log.d(DEBUG_TAG, "0 rows from " + table_name);
 
         c.close();
         membersDB.close();
