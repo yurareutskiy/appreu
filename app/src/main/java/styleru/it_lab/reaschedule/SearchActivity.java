@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Map;
 import styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -37,6 +39,9 @@ public class SearchActivity extends AppCompatActivity {
     Map<Integer, String> members = new HashMap<>();
     String missing = "";
     String DBTable = "";
+    String searchWho = "";
+    int searchID = 0;
+    SparseArray<Week> weeks = new SparseArray<Week>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,5 +168,82 @@ public class SearchActivity extends AppCompatActivity {
         RelativeLayout actionBarView = (RelativeLayout) getLayoutInflater().inflate(R.layout.search_actionbar, null);
         actionBar.setCustomView(actionBarView);
     }
+
+    public void onSearchStartPress(View v)
+    {
+        String searchText = searchTxt.getText().toString();
+        if (!members.containsValue(searchText))
+        {
+            Toast.makeText(this, "Введите существующее значение!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (groups.containsValue(searchText))
+        {
+            searchWho = "group";
+            for (Map.Entry<Integer, String> e : groups.entrySet())
+            {
+                int key = e.getKey();
+                String value = e.getValue();
+                if (value.equals(searchText))
+                {
+                    searchID = key;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            searchWho = "lector";
+            for (Map.Entry<Integer, String> e : lectors.entrySet())
+            {
+                int key = e.getKey();
+                String value = e.getValue();
+                if (value.equals(searchText))
+                {
+                    searchID = key;
+                    break;
+                }
+            }
+        }
+
+        if (NetworkOperations.isConnectionAvailable(this))
+        {
+            String stringUrl = getString(R.string.API_url) + "lessons/?who=" +  searchWho + "&id=" + searchID + "&timestamp=0";
+            new NetworkOperations.RequestTask(response, "schedule").execute(stringUrl);
+        }
+        else
+        {
+            Toast.makeText(this, "Невозможно установить интернет-соединение!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+//    NetworkOperations.RequestTask.AsyncResponse scheduleResponse = new NetworkOperations.RequestTask.AsyncResponse() {
+//        @Override
+//        public void processFinish(Object result, String response) {
+//            if (result != null)
+//                weeks = (SparseArray<Week>) result;
+//
+//            dialog.cancel();
+//            if (weeks.size() == 0)
+//            {
+//                Log.i(DEBUG_TAG, "Пришел пустой результат!");
+//                if (result == null)
+//                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT).show();
+//                else
+//                    Toast.makeText(getApplicationContext(), "Неверный ответ сервера. Попробуйте позже.", Toast.LENGTH_SHORT).show();
+//
+//                fillScheduleWithEmpty();
+//            }
+//            else
+//            {
+//                weekCount = weeks.size();
+//                MemoryOperations.cacheSchedule(getApplicationContext(), response, memberWho, memberID);
+//
+//                fillActionBarWithData();
+//                fillScheduleWithData();
+//            }
+//        }
+//    };
 
 }
