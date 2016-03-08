@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/listView"
     android:dividerHeight="1dp"
-    android:divider="#0076ff"
+    android:divider="#b3d6eb"
     android:listSelector="@android:color/transparent"
     android:longClickable="true" />

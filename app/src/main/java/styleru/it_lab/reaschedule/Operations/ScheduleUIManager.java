@@ -45,24 +45,6 @@ public class ScheduleUIManager
         return currentWeek;
     }
 
-    public int getCurrentDay()
-    {
-        return currentDay;
-    }
-
-    public int getWeekCount()
-    {
-        return weekCount;
-    }
-
-    public void setWeekCount(int _weekCount)
-    {
-        if (_weekCount < 0)
-            weekCount = 0;
-        else
-            weekCount = _weekCount;
-    }
-
     public void setWeeks(SparseArray<Week> _weeks)
     {
         weeks = _weeks;
@@ -142,14 +124,6 @@ public class ScheduleUIManager
             int dayNum = Integer.parseInt(splitString[1]);
             int currentWeekNum = Integer.parseInt(splitString[2]);
             boolean isCurrent = currentWeekNum == currentWeek && dayNum == currentDay;
-            if (isCurrent)
-            {
-                Log.i(DEBUG_TAG, "isCurrent is true!");
-            }
-            else
-            {
-                Log.i(DEBUG_TAG, "isCurrent is false! " + weekNum + "/" + currentWeek + "; " + dayNum + "/" + currentDay);
-            }
 
             ArrayList<Lesson> lessons = getLessonsData(tag, weekNum, dayNum);
             if (lessons.size() != 0)

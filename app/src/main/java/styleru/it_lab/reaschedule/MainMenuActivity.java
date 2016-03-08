@@ -95,7 +95,6 @@ public class MainMenuActivity extends AppCompatActivity {
         else
         {
             Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
-            scheduleManager.setWeekCount(tmpWeeks.size());
             scheduleManager.setWeeks(tmpWeeks);
             fillActionBarWithData();
             fillScheduleWithData();
@@ -153,7 +152,6 @@ public class MainMenuActivity extends AppCompatActivity {
         if (NetworkOperations.isConnectionAvailable(getApplicationContext()))
         {
             Log.i(DEBUG_TAG, "Все в поряде!");
-            scheduleManager.setWeekCount(0);
             scheduleManager.setWeeks(new SparseArray<Week>());
 
             dialog = ProgressDialog.show(thisContext, "", "Загрузка...", true, true);

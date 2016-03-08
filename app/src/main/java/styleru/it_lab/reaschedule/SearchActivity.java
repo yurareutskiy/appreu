@@ -2,9 +2,11 @@ package styleru.it_lab.reaschedule;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,9 +25,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
 import styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+import styleru.it_lab.reaschedule.Operations.ScheduleUIManager;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class SearchActivity extends AppCompatActivity {
@@ -42,12 +46,15 @@ public class SearchActivity extends AppCompatActivity {
     String searchWho = "";
     int searchID = 0;
     SparseArray<Week> weeks = new SparseArray<Week>();
-
+    ScheduleUIManager scheduleManager;
+    //TODO 3. Implement RefreshButton onClick Listener! Now it Causes Crash!
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Log.i(DEBUG_TAG, "Created SearchActivity");
+
+        scheduleManager = new ScheduleUIManager(this, DEBUG_TAG);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.search_toolbar);
         setSupportActionBar(myToolbar);
@@ -152,6 +159,7 @@ public class SearchActivity extends AppCompatActivity {
         searchTxt.setAdapter(adapter);
 
         dialog.cancel();
+        dialog.dismiss();
     }
 
     private void setupActionBar()
@@ -206,44 +214,91 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         }
+        //TODO 2. Show dialog before getting cached data (data getting should be ASYNC)
+        Log.i(DEBUG_TAG, "Attempt to get cached schedule");
+        SparseArray<Week> tmpWeeks = MemoryOperations.getCachedSchedule(getApplicationContext(), searchWho, searchID);
 
-        if (NetworkOperations.isConnectionAvailable(this))
+        if (tmpWeeks.size() != 0)
+        {
+            Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
+            scheduleManager.setWeeks(tmpWeeks);
+            fillScheduleWithData();
+        }
+        else if (NetworkOperations.isConnectionAvailable(this))
         {
             String stringUrl = getString(R.string.API_url) + "lessons/?who=" +  searchWho + "&id=" + searchID + "&timestamp=0";
-            new NetworkOperations.RequestTask(response, "schedule").execute(stringUrl);
+
+            Log.i(DEBUG_TAG, "Все в поряде!");
+            scheduleManager.setWeeks(new SparseArray<Week>());
+
+            dialog = ProgressDialog.show(this, "", "Загрузка...", true, true);
+
+            final NetworkOperations.RequestTask asyncTask = new NetworkOperations.RequestTask(scheduleResponse, "schedule");
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    asyncTask.cancel(true);
+                }
+            });
+
+            asyncTask.execute(stringUrl);
         }
         else
         {
-            Toast.makeText(this, "Невозможно установить интернет-соединение!", Toast.LENGTH_SHORT).show();
+            Log.i(DEBUG_TAG, "Нет соединения!");
+            Toast.makeText(getApplicationContext(), "Нет соединения с Интернетом!", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pager).setVisibility(View.GONE);
+            findViewById(R.id.refreshLinLay).setVisibility(View.VISIBLE);
         }
     }
 
-//    NetworkOperations.RequestTask.AsyncResponse scheduleResponse = new NetworkOperations.RequestTask.AsyncResponse() {
-//        @Override
-//        public void processFinish(Object result, String response) {
-//            if (result != null)
-//                weeks = (SparseArray<Week>) result;
-//
-//            dialog.cancel();
-//            if (weeks.size() == 0)
-//            {
-//                Log.i(DEBUG_TAG, "Пришел пустой результат!");
-//                if (result == null)
-//                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(getApplicationContext(), "Неверный ответ сервера. Попробуйте позже.", Toast.LENGTH_SHORT).show();
-//
-//                fillScheduleWithEmpty();
-//            }
-//            else
-//            {
-//                weekCount = weeks.size();
-//                MemoryOperations.cacheSchedule(getApplicationContext(), response, memberWho, memberID);
-//
-//                fillActionBarWithData();
-//                fillScheduleWithData();
-//            }
-//        }
-//    };
+    NetworkOperations.RequestTask.AsyncResponse scheduleResponse = new NetworkOperations.RequestTask.AsyncResponse() {
+        @Override
+        public void processFinish(Object result, String response) {
+            if (result != null)
+                scheduleManager.setWeeks((SparseArray<Week>) result);
+
+            if (scheduleManager.getWeeksSize() == 0)
+            {
+                Log.i(DEBUG_TAG, "Пришел пустой результат!");
+                if (result == null)
+                    Toast.makeText(getApplicationContext(), "Невозможно установить интернет-соединение.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Неверный ответ сервера. Попробуйте позже.", Toast.LENGTH_SHORT).show();
+
+                fillScheduleWithEmpty();
+            }
+            else
+            {
+                MemoryOperations.cacheSchedule(getApplicationContext(), response, searchWho, searchID);
+
+                fillScheduleWithData();
+            }
+
+            dialog.cancel();
+        }
+    };
+
+    private void fillScheduleWithEmpty()
+    {
+        findViewById(R.id.pager).setVisibility(View.GONE);
+        findViewById(R.id.refreshLinLay).setVisibility(View.VISIBLE);
+    }
+
+    private void fillScheduleWithData()
+    {
+        List<View> pages = scheduleManager.getScheduleAsUI();
+
+        //делишки со слайдингом для недель
+        SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+
+        viewPager.setVisibility(View.VISIBLE);
+        findViewById(R.id.refreshLinLay).setVisibility(View.GONE);
+
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.clearOnPageChangeListeners();
+        viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
+    }
 
 }

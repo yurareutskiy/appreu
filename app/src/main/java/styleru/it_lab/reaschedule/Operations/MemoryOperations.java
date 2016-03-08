@@ -65,6 +65,7 @@ public class MemoryOperations {
 
     public static SparseArray<Week> getCachedSchedule(Context context, String who, int id)
     {
+        //TODO 1. Make this method ASYNC
         SparseArray<Week> returnArray;
 
         SharedPreferences sharedPref = context.getSharedPreferences(
@@ -99,7 +100,6 @@ public class MemoryOperations {
         public static final String LESSONS_COLUMN_WHO_ID = "who_id";
         public static final String LESSONS_COLUMN_HASH_ID = "hash_id";
         public static final String LESSONS_COLUMN_WEEK = "week";
-//        TODO запилить БДшку для расписания
 
         public ScheduleDBHelper (Context context)
         {
