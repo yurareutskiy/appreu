@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:paddingRight="12dp"
     android:background="@color/schedule_blue_light"
     android:orientation="vertical"
     android:gravity="center_vertical">
@@ -24,8 +23,6 @@
             android:id="@+id/searchTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:imeOptions="actionSearch"
-            android:inputType="textAutoComplete|textAutoCorrect"
             android:textColor="#FFFFFF"
             android:textColorHint="#bdf5f5f5"
             android:hint="@string/search"
@@ -33,7 +30,7 @@
             android:enabled="true"
             android:focusable="true"
             android:clickable="true"
-            android:textSize="19dp"
+            android:textSize="18dp"
             android:minWidth="150dp"
             android:singleLine="true"
             android:selectAllOnFocus="true"
@@ -45,23 +42,24 @@
             android:id="@+id/txtWeek"
             android:textColor="#ffffff"
             app:customFont="HelveticaNeueCyr_Light"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginBottom="2dp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
         android:contentDescription="startSearch"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/imgSearch"
-        android:src="@drawable/icon_search"
+        android:src="@drawable/ic_action_icon_check"
         android:clickable="true"
-        android:padding="6dp"
         android:focusable="true"
         android:focusableInTouchMode="false"
-        android:background="@drawable/abc_item_background_holo_dark"
-        android:scaleType="fitCenter"
+        android:background="@drawable/selector_blue"
+        android:scaleType="center"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onSearchStartPress" />
+        android:onClick="onSearchStartPress"
+        android:baselineAlignBottom="false" />
 </RelativeLayout>

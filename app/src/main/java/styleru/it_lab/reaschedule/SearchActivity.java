@@ -310,6 +310,8 @@ public class SearchActivity extends AppCompatActivity {
         viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
+
+        actionBarWeek.setVisibility(View.VISIBLE);
     }
 
     ViewPager.OnPageChangeListener pageChangeListener = new  ViewPager.OnPageChangeListener() {
