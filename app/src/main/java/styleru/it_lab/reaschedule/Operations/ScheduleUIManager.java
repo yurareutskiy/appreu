@@ -29,6 +29,8 @@ public class ScheduleUIManager
     private int currentDay;
     private int weekCount;
 
+    private String forWho = "";
+
     public ScheduleUIManager (Context _context, String _DEBUG_TAG)
     {
         context = _context;
@@ -76,8 +78,10 @@ public class ScheduleUIManager
         return 0;
     }
 
-    public List<View> getScheduleAsUI()
+    public List<View> getScheduleAsUI(String _forWho)
     {
+        forWho = _forWho;
+
         //делишки с контетом для табов
         List<View> pages = new ArrayList<View>();
         View page;
@@ -128,7 +132,7 @@ public class ScheduleUIManager
             ArrayList<Lesson> lessons = getLessonsData(tag, weekNum, dayNum);
             if (lessons.size() != 0)
             {
-                ScheduleAdapter schAdapter = new ScheduleAdapter(context, lessons, isCurrent);
+                ScheduleAdapter schAdapter = new ScheduleAdapter(context, lessons, forWho, isCurrent);
 
                 ListView listContent = (ListView) inflater.inflate(R.layout.day_list_view, null);
                 listContent.setAdapter(schAdapter);

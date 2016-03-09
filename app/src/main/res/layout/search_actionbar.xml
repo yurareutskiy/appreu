@@ -4,30 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:paddingRight="12dp"
-    android:paddingLeft="12dp"
     android:background="@color/schedule_blue_light"
     android:orientation="vertical"
     android:gravity="center_vertical">
 
-    <styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont
-        style="@style/AutoCompleteTextViewAppTheme"
-        android:id="@+id/searchTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionSearch"
-        android:inputType="textAutoComplete|textAutoCorrect"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#bdf5f5f5"
-        android:hint="@string/search"
-        app:customFont="HelveticaNeueCyr_Light"
-        android:editable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:clickable="true"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/linLayInfo"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imgSearch"
-        android:layout_toStartOf="@+id/imgSearch"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="false" />
+        android:layout_toStartOf="@+id/imgSearch">
+
+        <styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont
+            style="@style/AutoCompleteTextViewAppTheme"
+            android:id="@+id/searchTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSearch"
+            android:inputType="textAutoComplete|textAutoCorrect"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdf5f5f5"
+            android:hint="@string/search"
+            app:customFont="HelveticaNeueCyr_Medium"
+            android:enabled="true"
+            android:focusable="true"
+            android:clickable="true"
+            android:textSize="19dp"
+            android:minWidth="150dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"
+            android:gravity="center" />
+
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtWeek"
+            android:textColor="#ffffff"
+            app:customFont="HelveticaNeueCyr_Light"
+            android:layout_marginBottom="2dp" />
+    </LinearLayout>
 
     <ImageView
         android:contentDescription="startSearch"

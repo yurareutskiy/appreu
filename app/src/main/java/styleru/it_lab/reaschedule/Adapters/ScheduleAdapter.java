@@ -31,14 +31,14 @@ public class ScheduleAdapter extends BaseAdapter {
         memberWho = MemoryOperations.getSharedPreferences(ctx).get("who");
     }
 
-    public ScheduleAdapter(Context context, ArrayList<Lesson> lessons, boolean _current) {
+    public ScheduleAdapter(Context context, ArrayList<Lesson> lessons, String _memberWho, boolean _current) {
         ctx = context;
         objects = lessons;
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         current = _current;
-        memberWho = MemoryOperations.getSharedPreferences(ctx).get("who");
+        memberWho = _memberWho;
     }
 
     // кол-во элементов

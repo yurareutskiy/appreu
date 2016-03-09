@@ -12,6 +12,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.R;
@@ -168,12 +169,12 @@ public class MemoryOperations {
 
     private static class MembersDBAddRunnable implements Runnable {
         private Context context;
-        private Map<Integer, String> members;
+        private Map<Integer, String> members = new HashMap<>();
         String table_name;
 
         MembersDBAddRunnable(Context _context, Map<Integer, String> _members, String _table_name) {
             this.context = _context;
-            this.members = _members;
+            this.members.putAll(_members);
             this.table_name = _table_name;
         }
 
@@ -182,6 +183,7 @@ public class MemoryOperations {
             SQLiteDatabase membersDB = dbHelper.getWritableDatabase();
             try {
                 membersDB.beginTransaction();
+                Log.i(DEBUG_TAG, "Transaction begun. Members' size is: " + members.size());
 
                 for (Map.Entry<Integer, String> e : members.entrySet()) {
                     int key = e.getKey();

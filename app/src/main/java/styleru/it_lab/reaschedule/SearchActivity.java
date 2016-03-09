@@ -13,22 +13,25 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
 import styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont;
+import styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
+import styleru.it_lab.reaschedule.Operations.OtherOperations;
 import styleru.it_lab.reaschedule.Operations.ScheduleUIManager;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
@@ -44,9 +47,11 @@ public class SearchActivity extends AppCompatActivity {
     String missing = "";
     String DBTable = "";
     String searchWho = "";
+    String showScheduleFor = "";
     int searchID = 0;
-    SparseArray<Week> weeks = new SparseArray<Week>();
     ScheduleUIManager scheduleManager;
+    TextViewCustomFont actionBarWeek;
+
     //TODO 3. Implement RefreshButton onClick Listener! Now it Causes Crash!
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class SearchActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.search_toolbar);
         setSupportActionBar(myToolbar);
         setupActionBar();
+
+        getActionBarWeek();
 
         searchTxt = (AutoCompleteTextViewCustomFont) findViewById(R.id.searchTxt);
         if (searchTxt == null)
@@ -73,6 +80,8 @@ public class SearchActivity extends AppCompatActivity {
 
         groups = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_GROUPS);
         lectors = MemoryOperations.DBMembersGet(this, MemoryOperations.ScheduleDBHelper.DATABASE_TABLE_LECTORS);
+
+        Log.i(DEBUG_TAG, groups.size() + " " + lectors.size());
 
         if (groups.size() == 0)
         {
@@ -132,18 +141,17 @@ public class SearchActivity extends AppCompatActivity {
 
     private void fillListWithData()
     {
-        if (missing.equals("groups"))
-        {
-            groups = members;
-        }
-        else if (missing.equals("lectors"))
-        {
-            lectors = members;
-            members = groups;
-        }
-        else
-        {
-            members = groups;
+        switch (missing) {
+            case "groups":
+                groups.putAll(members);
+                break;
+            case "lectors":
+                lectors.putAll(members);
+                members.putAll(groups);
+                break;
+            default:
+                members.putAll(groups);
+                break;
         }
 
         int key = members.size();
@@ -199,8 +207,9 @@ public class SearchActivity extends AppCompatActivity {
                     break;
                 }
             }
+            Log.i(DEBUG_TAG, "If groups ID = " + searchID );
         }
-        else
+        else if (lectors.containsValue(searchText))
         {
             searchWho = "lector";
             for (Map.Entry<Integer, String> e : lectors.entrySet())
@@ -213,6 +222,7 @@ public class SearchActivity extends AppCompatActivity {
                     break;
                 }
             }
+            Log.i(DEBUG_TAG, "Search lector: ID - " + searchID);
         }
         //TODO 2. Show dialog before getting cached data (data getting should be ASYNC)
         Log.i(DEBUG_TAG, "Attempt to get cached schedule");
@@ -287,7 +297,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void fillScheduleWithData()
     {
-        List<View> pages = scheduleManager.getScheduleAsUI();
+        List<View> pages = scheduleManager.getScheduleAsUI(searchWho + "s");
 
         //делишки со слайдингом для недель
         SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
@@ -298,7 +308,45 @@ public class SearchActivity extends AppCompatActivity {
 
         viewPager.setAdapter(pagerAdapter);
         viewPager.clearOnPageChangeListeners();
+        viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
     }
 
+    ViewPager.OnPageChangeListener pageChangeListener = new  ViewPager.OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int position) {
+            Log.i(DEBUG_TAG, "PAGE CHANGED TO " + position);
+            actionBarWeek.setText(Integer.toString(scheduleManager.getWeek(position).getWeekNum()) + " неделя");
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset,
+                                   int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    };
+
+    private void getActionBarWeek()
+    {
+        RelativeLayout actionBarView = (RelativeLayout) actionBar.getCustomView();
+        int childCount = actionBarView.getChildCount();
+        for (int i = 0; i < childCount; i++)
+        {
+            View child = actionBarView.getChildAt(i);
+            if (child.getId() == R.id.linLayInfo)
+            {
+                LinearLayout linearLayout = (LinearLayout) child;
+                actionBarWeek = (TextViewCustomFont) linearLayout.getChildAt(1);
+            }
+        }
+    }
+
+    public void onRefreshClick (View v)
+    {
+
+    }
 }

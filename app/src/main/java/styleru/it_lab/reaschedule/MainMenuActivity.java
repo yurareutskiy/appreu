@@ -130,7 +130,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void fillScheduleWithData()
     {
-        List<View> pages = scheduleManager.getScheduleAsUI();
+        List<View> pages = scheduleManager.getScheduleAsUI(memberWho);
 
         //делишки со слайдингом для недель
         SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
