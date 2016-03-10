@@ -360,4 +360,14 @@ public class AccountActivity extends AppCompatActivity {
             }
         };
     }
+
+    public void onButtonBackClick(View v)
+    {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

@@ -12,6 +12,14 @@
         android:background="@drawable/account_background"
         android:layout_weight="62">
 
+        <ImageView
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/accountImgBack"
+            android:src="@drawable/ic_action_icon_back"
+            android:scaleType="center"
+            android:onClick="onButtonBackClick" />
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
