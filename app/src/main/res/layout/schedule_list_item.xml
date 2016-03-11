@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent" android:layout_height="150dp"
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
     android:paddingTop="15dp"
     android:paddingRight="20dp"
     android:paddingLeft="20dp"
@@ -12,7 +12,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical">
+        android:gravity="left|center_vertical"
+        android:id="@+id/linearLayout">
 
         <ImageView
             android:layout_width="20dp"
@@ -56,22 +57,6 @@
     </LinearLayout>
 
     <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
-        android:id="@+id/sch_txtInfo"
-        android:layout_below="@+id/sch_txtLesson"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentLeft="true"
-        android:gravity="bottom"
-        android:layout_alignParentStart="true"
-        app:customFont="HelveticaNeueCyr_Light"
-        android:textColor="#616161"
-        android:lineSpacingMultiplier="1.2" />
-
-    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Основы Объектно-ориентированного Программирования"
@@ -79,11 +64,26 @@
         android:textColor="#0076ff"
         android:textSize="17dp"
         android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:maxLines="2"
         app:customFont="HelveticaNeueCyr_Bold"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
+        android:id="@+id/sch_txtInfo"
+        android:layout_below="@+id/sch_txtLesson"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:customFont="HelveticaNeueCyr_Light"
+        android:textColor="#616161"
         android:lineSpacingMultiplier="1.2" />
 
 </RelativeLayout>
