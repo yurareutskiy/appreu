@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -17,24 +19,22 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
 import styleru.it_lab.reaschedule.CustomFontViews.AutoCompleteTextViewCustomFont;
 import styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
-import styleru.it_lab.reaschedule.Operations.OtherOperations;
 import styleru.it_lab.reaschedule.Operations.ScheduleUIManager;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
+@SuppressWarnings("unchecked")
 public class SearchActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "SearchAct_DEBUG";
@@ -47,7 +47,6 @@ public class SearchActivity extends AppCompatActivity {
     String missing = "";
     String DBTable = "";
     String searchWho = "";
-    String showScheduleFor = "";
     int searchID = 0;
     ScheduleUIManager scheduleManager;
     TextViewCustomFont actionBarWeek;
@@ -224,15 +223,37 @@ public class SearchActivity extends AppCompatActivity {
             }
             Log.i(DEBUG_TAG, "Search lector: ID - " + searchID);
         }
-        //TODO 2. Show dialog before getting cached data (data getting should be ASYNC)
-        Log.i(DEBUG_TAG, "Attempt to get cached schedule");
-        SparseArray<Week> tmpWeeks = MemoryOperations.getCachedSchedule(getApplicationContext(), searchWho, searchID);
 
+        Log.i(DEBUG_TAG, "Attempt to get cached schedule");
+        dialog = ProgressDialog.show(this, "", "Загрузка...", true, false);
+
+        final Handler h = new Handler()
+        {
+            public void handleMessage(android.os.Message msg)
+            {
+                getDataForSchedulePost((SparseArray<Week>) msg.obj);
+            }
+        };
+
+        Thread newT = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SparseArray<Week> tmpWeeks = MemoryOperations.getCachedSchedule(getApplicationContext(), searchWho, searchID);
+                Message msg = h.obtainMessage(1, tmpWeeks);
+                h.sendMessage(msg);
+            }
+        });
+        newT.start();
+    }
+
+    private void getDataForSchedulePost(SparseArray<Week> tmpWeeks)
+    {
         if (tmpWeeks.size() != 0)
         {
             Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
             scheduleManager.setWeeks(tmpWeeks);
             fillScheduleWithData();
+            dialog.cancel();
         }
         else if (NetworkOperations.isConnectionAvailable(this))
         {
@@ -241,9 +262,9 @@ public class SearchActivity extends AppCompatActivity {
             Log.i(DEBUG_TAG, "Все в поряде!");
             scheduleManager.setWeeks(new SparseArray<Week>());
 
-            dialog = ProgressDialog.show(this, "", "Загрузка...", true, true);
-
             final NetworkOperations.RequestTask asyncTask = new NetworkOperations.RequestTask(scheduleResponse, "schedule");
+
+            dialog.setCancelable(true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
@@ -259,6 +280,7 @@ public class SearchActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Нет соединения с Интернетом!", Toast.LENGTH_SHORT).show();
             findViewById(R.id.pager).setVisibility(View.GONE);
             findViewById(R.id.refreshLinLay).setVisibility(View.VISIBLE);
+            dialog.cancel();
         }
     }
 

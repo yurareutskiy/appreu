@@ -1,9 +1,12 @@
 package styleru.it_lab.reaschedule;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,30 +14,23 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
-import styleru.it_lab.reaschedule.Adapters.ScheduleAdapter;
-import styleru.it_lab.reaschedule.Operations.DateOperations;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
 import styleru.it_lab.reaschedule.Operations.ScheduleUIManager;
-import styleru.it_lab.reaschedule.Schedule.Lesson;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
+@SuppressWarnings("unchecked")
 public class MainMenuActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "MAIN_MENU_DEBUG";
@@ -85,8 +81,29 @@ public class MainMenuActivity extends AppCompatActivity {
             return;
 
         Log.i(DEBUG_TAG, "Attempt to get cached schedule");
-        SparseArray<Week> tmpWeeks = MemoryOperations.getCachedSchedule(getApplicationContext(), memberWho, memberID);
+        dialog = ProgressDialog.show(thisContext, "", "Загрузка...", true, false);
 
+        final Handler h = new Handler()
+        {
+            public void handleMessage(android.os.Message msg)
+            {
+                getDataForSchedulePost((SparseArray<Week>) msg.obj);
+            }
+        };
+
+        Thread newT = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SparseArray<Week> tmpWeeks = MemoryOperations.getCachedSchedule(getApplicationContext(), memberWho, memberID);
+                Message msg = h.obtainMessage(1, tmpWeeks);
+                h.sendMessage(msg);
+            }
+        });
+        newT.start();
+    }
+
+    private void getDataForSchedulePost(SparseArray<Week> tmpWeeks)
+    {
         if (tmpWeeks.size() == 0)
         {
             //получение расписания
@@ -98,6 +115,7 @@ public class MainMenuActivity extends AppCompatActivity {
             scheduleManager.setWeeks(tmpWeeks);
             fillActionBarWithData();
             fillScheduleWithData();
+            dialog.cancel();
         }
     }
 
@@ -154,9 +172,9 @@ public class MainMenuActivity extends AppCompatActivity {
             Log.i(DEBUG_TAG, "Все в поряде!");
             scheduleManager.setWeeks(new SparseArray<Week>());
 
-            dialog = ProgressDialog.show(thisContext, "", "Загрузка...", true, true);
             final NetworkOperations.RequestTask asyncTask = new NetworkOperations.RequestTask(response, "schedule");
 
+            dialog.setCancelable(true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
@@ -211,8 +229,6 @@ public class MainMenuActivity extends AppCompatActivity {
         RelativeLayout actionBarView = (RelativeLayout) getLayoutInflater().inflate(R.layout.schedule_actionbar, null);
         actionBar.setCustomView(actionBarView);
     }
-
-
 
     private boolean checkIfPreferencesChanged()
     {

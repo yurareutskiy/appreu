@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/account_background"
         android:layout_weight="62">
@@ -102,7 +102,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/accountPager"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="38">
     </android.support.v4.view.ViewPager>

@@ -66,7 +66,6 @@ public class MemoryOperations {
 
     public static SparseArray<Week> getCachedSchedule(Context context, String who, int id)
     {
-        //TODO 1. Make this method ASYNC
         SparseArray<Week> returnArray;
 
         SharedPreferences sharedPref = context.getSharedPreferences(
