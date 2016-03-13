@@ -1,7 +1,12 @@
 package styleru.it_lab.reaschedule.Operations;
 
 
+import android.app.Activity;
+import android.util.Log;
 import android.util.SparseArray;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +22,8 @@ import styleru.it_lab.reaschedule.Schedule.Lesson;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class OtherOperations {
+
+    public static final String DEBUG_TAG = "OtherOperations_DEBUG";
 
     public static String shortName(String fullName)
     {
@@ -175,5 +182,22 @@ public class OtherOperations {
         }
 
         return weeks;
+    }
+
+    public static boolean checkPlayServices(Activity activity) {
+        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(activity);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(DEBUG_TAG, "This device is not supported.");
+            }
+            return false;
+        }
+        return true;
     }
 }

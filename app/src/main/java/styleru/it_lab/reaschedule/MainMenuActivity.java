@@ -29,6 +29,7 @@ import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
 import styleru.it_lab.reaschedule.Operations.ScheduleUIManager;
 import styleru.it_lab.reaschedule.Schedule.Week;
+import styleru.it_lab.reaschedule.Services.GcmRegistrationIntentService;
 
 @SuppressWarnings("unchecked")
 public class MainMenuActivity extends AppCompatActivity {
@@ -61,6 +62,12 @@ public class MainMenuActivity extends AppCompatActivity {
         setupActionBar();
 
         getDataForSchedule();
+
+        if (OtherOperations.checkPlayServices(this)) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, GcmRegistrationIntentService.class);
+            startService(intent);
+        }
     }
 
     @Override
