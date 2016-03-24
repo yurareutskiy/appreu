@@ -7,6 +7,7 @@ public class Day {
 
     private int dayNum;
     private Lesson[] lessons;
+    private String date;
 
     public Day(int _dayNum)
     {
@@ -41,5 +42,15 @@ public class Day {
     public Lesson[] getLessons()
     {
         return lessons;
+    }
+
+    public void setDate(String _date)
+    {
+        date = _date;
+    }
+
+    public String getDate()
+    {
+        return date;
     }
 }

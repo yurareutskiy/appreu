@@ -1,7 +1,7 @@
 package styleru.it_lab.reaschedule.Operations;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import styleru.it_lab.reaschedule.Adapters.ScheduleAdapter;
+import styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont;
 import styleru.it_lab.reaschedule.R;
 import styleru.it_lab.reaschedule.Schedule.Lesson;
 import styleru.it_lab.reaschedule.Schedule.Week;
@@ -25,9 +26,12 @@ public class ScheduleUIManager
     private Context context;
     private LayoutInflater inflater;
     private SparseArray<Week> weeks;
+    private TextViewCustomFont txtWeek;
+    private ViewPager viewPager;
     private int currentWeek;
     private int currentDay;
     private int weekCount;
+    private int daySelected;
 
     private String forWho = "";
 
@@ -39,12 +43,40 @@ public class ScheduleUIManager
         weeks = new SparseArray<>();
         currentWeek = DateOperations.getCurrentWeekNum();
         currentDay = DateOperations.getCurrentDayNum();
+        daySelected = currentDay;
         weekCount = 0;
     }
 
-    public int getCurrentWeek()
+    public void setViewPager(ViewPager _viewPager)
+    {
+        viewPager = _viewPager;
+    }
+
+    public void setTxtWeek(TextViewCustomFont _txt)
+    {
+        txtWeek = _txt;
+    }
+
+    public int getDaySelected(){return daySelected;}
+
+    public int getCurrentWeekNum()
     {
         return currentWeek;
+    }
+
+    public String getDate(int weekNum, int dayNum)
+    {
+        return getWeek(weekNum).getDay(dayNum).getDate();
+    }
+
+    public String getDate()
+    {
+        return getWeek(currentWeek).getDay(currentDay).getDate();
+    }
+
+    public int getCurrentDay()
+    {
+        return currentDay;
     }
 
     public void setWeeks(SparseArray<Week> _weeks)
@@ -93,6 +125,8 @@ public class ScheduleUIManager
             page = inflater.inflate(R.layout.week_schedule, null);
             tabHost = (TabHost) page.findViewById(R.id.tabHost);
             tabHost.setup();
+            tabHost.setTag("tabHost"+ weekIterator);
+
             int tmpWeekNum = weeks.get(weekIterator).getWeekNum();
 
             for (int dayIterator = 0; dayIterator < 6; dayIterator++)
@@ -108,11 +142,22 @@ public class ScheduleUIManager
 
                 tabHost.addTab(tabSpec);
             }
-            if (tmpWeekNum == currentWeek)
-                tabHost.setCurrentTab(currentDay);
-            else
-                tabHost.setCurrentTab(0);
+            //if (tmpWeekNum == currentWeek)
+            tabHost.setCurrentTab(currentDay);
+            //else
+            //    tabHost.setCurrentTab(0);
 
+            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+                @Override
+                public void onTabChanged(String tabId) {
+                    String[] data = tabId.split("\\.");
+                    daySelected = Integer.parseInt(data[1]);
+                    int position = viewPager.getCurrentItem();
+                    Week selectedWeek = getWeek(position);
+
+                    txtWeek.setText(selectedWeek.getWeekNum() + " неделя, " + selectedWeek.getDay(daySelected).getDate());
+                }
+            });
             pages.add(page);
         }
 

@@ -44,7 +44,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtWeek"
             android:textColor="#ffffff"
-            app:customFont="HelveticaNeueCyr_Light"/>
+            app:customFont="HelveticaNeueCyr_Light"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:drawableStart="@drawable/ic_arrow_left"
+            android:drawablePadding="10dp"
+            android:gravity="center" />
     </LinearLayout>
 
     <ImageView

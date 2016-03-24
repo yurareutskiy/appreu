@@ -27,7 +27,7 @@ public class DateOperations {
         catch (java.text.ParseException e)
         {
             Log.i(DEBUG_TAG, "ERROR PARSING THE DATE: " + e.getMessage());
-            return 26;
+            return 1;
         }
     }
 
@@ -47,7 +47,6 @@ public class DateOperations {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Calendar c = Calendar.getInstance();
         String currentTime = df.format(c.getTime());
-        Log.i(DEBUG_TAG, "Current time is: " + currentTime);
 
         int currentLesson = 10;
 

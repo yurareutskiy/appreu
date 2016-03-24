@@ -99,18 +99,24 @@ public class OtherOperations {
                 {
                     //цикл по дням
                     JSONObject dataDay;
+                    JSONObject dataDayFull;
+                    dataDayFull = dataLessons.getJSONObject(fullWeekDaysEng[dayIterator]);
+                    String date = dataDayFull.getString("date");
 
-                    if (dataLessons.isNull(fullWeekDaysEng[dayIterator]))
+                    if (dataDayFull.isNull("lessons"))
                     {
                         //null, нет пар в этот день
-                        daysList.add(new Day(dayIterator, true)); //добавил пустой день
+                        Day emptyDay = new Day(dayIterator, true);
+                        emptyDay.setDate(date);
+                        daysList.add(emptyDay); //добавил пустой день
                     }
                     else
                     {
                         //в этот день есть пары
-                        dataDay = dataLessons.getJSONObject(fullWeekDaysEng[dayIterator]);
+                        dataDay = dataDayFull.getJSONObject("lessons");
 
                         Day currentDay = new Day(dayIterator); // создал день
+                        currentDay.setDate(date);
                         List<Lesson> lessonsList = new ArrayList<>(); // список пар в currentDay
 
                         for (int lessonIterator = 0; lessonIterator < 8; lessonIterator++)

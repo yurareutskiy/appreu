@@ -1,6 +1,5 @@
 package styleru.it_lab.reaschedule;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +16,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
+import styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
@@ -36,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "MAIN_MENU_DEBUG";
 
-    TextView actionBarWeek;
+    TextViewCustomFont actionBarWeek;
     ActionBar actionBar;
     int memberID = 0;
     String memberName = "";
@@ -46,6 +47,8 @@ public class MainMenuActivity extends AppCompatActivity {
     ScheduleUIManager scheduleManager;
     Context thisContext = this;
     ProgressDialog dialog;
+    ViewPager viewPager;
+    SamplePageAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +150,9 @@ public class MainMenuActivity extends AppCompatActivity {
                     textView.setText(memberName);
                 }
 
-                actionBarWeek = (TextView) linearLayout.getChildAt(1);
-                actionBarWeek.setText(Integer.toString(scheduleManager.getCurrentWeek()) + " неделя");
+                actionBarWeek = (TextViewCustomFont) linearLayout.getChildAt(1);
+                actionBarWeek.setText(Integer.toString(scheduleManager.getCurrentWeekNum()) + " неделя, " + scheduleManager.getDate());
+                scheduleManager.setTxtWeek(actionBarWeek);
             }
         }
     }
@@ -158,8 +162,8 @@ public class MainMenuActivity extends AppCompatActivity {
         List<View> pages = scheduleManager.getScheduleAsUI(memberWho);
 
         //делишки со слайдингом для недель
-        SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new SamplePageAdapter(pages);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setVisibility(View.VISIBLE);
         findViewById(R.id.refreshLinLay).setVisibility(View.GONE);
@@ -168,6 +172,7 @@ public class MainMenuActivity extends AppCompatActivity {
         viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
+        scheduleManager.setViewPager(viewPager);
     }
 
     private void getSchedule()
@@ -282,7 +287,15 @@ public class MainMenuActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             Log.i(DEBUG_TAG, "PAGE CHANGED TO " + position);
-            actionBarWeek.setText(Integer.toString(scheduleManager.getWeek(position).getWeekNum()) + " неделя");
+            Week selectedWeek = scheduleManager.getWeek(position);
+            TabHost tabHost = (TabHost)viewPager.findViewWithTag("tabHost" + position);
+
+            if (tabHost != null) {
+                tabHost.setCurrentTab(scheduleManager.getDaySelected());
+            }
+
+            String date = selectedWeek.getDay(scheduleManager.getDaySelected()).getDate();
+            actionBarWeek.setText(Integer.toString(selectedWeek.getWeekNum()) + " неделя, " + date);
         }
 
         @Override

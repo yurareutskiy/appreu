@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="В этот день нет пар"
-        android:id="@+id/txtNoLessons"
-        android:layout_gravity="center"
-        android:textColor="@color/schedule_blue_dark"
-        android:textSize="20dp"
-        app:customFont="HelveticaNeueCyr_Light"/>
-</FrameLayout>
+        android:id="@+id/imageView5"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/rea_logo"
+        android:scaleType="fitCenter" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ЗАНЯТИЙ НЕТ"
+            android:id="@+id/txtNoLessons"
+            android:layout_gravity="center"
+            android:textColor="@color/schedule_blue_light"
+            android:textSize="23dp"
+            app:customFont="HelveticaNeueCyr_Medium"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Приложение разработано\nIT_lab Styleru"
+            android:id="@+id/txtMadeBy"
+            android:layout_gravity="center"
+            android:textColor="#616161"
+            app:customFont="HelveticaNeueCyr_Light"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_marginTop="9dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>
