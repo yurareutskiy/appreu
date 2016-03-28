@@ -15,6 +15,7 @@ import java.util.List;
 import styleru.it_lab.reaschedule.Adapters.ScheduleAdapter;
 import styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont;
 import styleru.it_lab.reaschedule.R;
+import styleru.it_lab.reaschedule.Schedule.Day;
 import styleru.it_lab.reaschedule.Schedule.Lesson;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
@@ -60,6 +61,7 @@ public class ScheduleUIManager
     public int getDaySelected(){return daySelected;}
 
     public int getCurrentWeekNum()
+
     {
         return currentWeek;
     }
@@ -71,7 +73,11 @@ public class ScheduleUIManager
 
     public String getDate()
     {
-        return getWeek(currentWeek).getDay(currentDay).getDate();
+        Week week = getWeek(currentWeekNumToIndex());
+        if (week == null)
+            week = getWeek(0);
+
+        return week.getDay(currentDay).getDate();
     }
 
     public int getCurrentDay()
@@ -123,6 +129,8 @@ public class ScheduleUIManager
         for (int weekIterator = 0; weekIterator < weekCount; weekIterator++)
         {
             page = inflater.inflate(R.layout.week_schedule, null);
+            page.setTag("page");
+
             tabHost = (TabHost) page.findViewById(R.id.tabHost);
             tabHost.setup();
             tabHost.setTag("tabHost"+ weekIterator);

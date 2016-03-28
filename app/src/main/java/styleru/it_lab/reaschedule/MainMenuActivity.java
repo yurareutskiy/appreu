@@ -57,6 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
         Log.i(DEBUG_TAG, "CREATED MAIN_MENU");
 
         scheduleManager = new ScheduleUIManager(this, DEBUG_TAG);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         //Делишки с actionbar'ом
         Toolbar myToolbar = (Toolbar) findViewById(R.id.schToolbar);
@@ -123,8 +124,9 @@ public class MainMenuActivity extends AppCompatActivity {
         {
             Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
             scheduleManager.setWeeks(tmpWeeks);
-            fillActionBarWithData();
+
             fillScheduleWithData();
+            fillActionBarWithData();
             dialog.cancel();
         }
     }
@@ -132,7 +134,8 @@ public class MainMenuActivity extends AppCompatActivity {
     private void fillActionBarWithData()
     {
         RelativeLayout actionBarView = (RelativeLayout) actionBar.getCustomView();
-        int childCount = actionBarView.getChildCount();
+        Log.i(DEBUG_TAG, actionBarView.findViewById(R.id.txtWeek) + "");
+        /*int childCount = actionBarView.getChildCount();
         for (int i = 0; i < childCount; i++)
         {
             View child = actionBarView.getChildAt(i);
@@ -154,7 +157,22 @@ public class MainMenuActivity extends AppCompatActivity {
                 actionBarWeek.setText(Integer.toString(scheduleManager.getCurrentWeekNum()) + " неделя, " + scheduleManager.getDate());
                 scheduleManager.setTxtWeek(actionBarWeek);
             }
+        }*/
+        TextView textView = (TextViewCustomFont) actionBarView.findViewById(R.id.txtGroup);
+        if (memberWho.equals(getString(R.string.WHO_LECTOR))) {
+            textView.setText(OtherOperations.shortName(memberName));
         }
+        else
+        {
+            textView.setText(memberName);
+        }
+        actionBarWeek = (TextViewCustomFont) actionBarView.findViewById(R.id.txtWeek);
+        scheduleManager.getCurrentWeekNum();
+        scheduleManager.getDate();
+
+        actionBarWeek.setText(Integer.toString(scheduleManager.getCurrentWeekNum()) + " неделя, " + scheduleManager.getDate());
+        scheduleManager.setTxtWeek(actionBarWeek);
+
     }
 
     private void fillScheduleWithData()
@@ -225,8 +243,8 @@ public class MainMenuActivity extends AppCompatActivity {
             {
                 MemoryOperations.cacheSchedule(getApplicationContext(), response, memberWho, memberID);
 
-                fillActionBarWithData();
                 fillScheduleWithData();
+                fillActionBarWithData();
             }
         }
     };
@@ -287,6 +305,7 @@ public class MainMenuActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             Log.i(DEBUG_TAG, "PAGE CHANGED TO " + position);
+
             Week selectedWeek = scheduleManager.getWeek(position);
             TabHost tabHost = (TabHost)viewPager.findViewWithTag("tabHost" + position);
 
@@ -295,7 +314,9 @@ public class MainMenuActivity extends AppCompatActivity {
             }
 
             String date = selectedWeek.getDay(scheduleManager.getDaySelected()).getDate();
-            actionBarWeek.setText(Integer.toString(selectedWeek.getWeekNum()) + " неделя, " + date);
+            if (actionBarWeek != null)
+                actionBarWeek.setText(Integer.toString(selectedWeek.getWeekNum()) + " неделя, " + date);
+
         }
 
         @Override
@@ -316,7 +337,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void onRefreshClick (View v)
     {
-        getSchedule();
+        getDataForSchedule();
     }
 
     public void onActionBarClick(View v)
