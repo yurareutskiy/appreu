@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtDate"
+        android:text="21.12.16 21:03:15"
+        android:singleLine="true"
+        app:customFont="HelveticaNeueCyr_Light"/>
+
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtMsg"
+        android:text="Уважаемые старосты групп, просим всех немедленно собраться в аудитории 201 в 15:40 для обсуждения вопроса оплаты обучения."
+        android:layout_marginTop="5dp"
+        android:textColor="@color/schedule_blue_dark"
+        android:lineSpacingMultiplier="1.05"
+        app:customFont="HelveticaNeueCyr_Medium"
+        android:textSize="15dp" />
+</LinearLayout>

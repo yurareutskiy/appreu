@@ -48,7 +48,8 @@
             android:drawableEnd="@drawable/ic_arrow_right"
             android:drawableStart="@drawable/ic_arrow_left"
             android:drawablePadding="10dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView

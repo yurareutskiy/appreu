@@ -17,21 +17,25 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import styleru.it_lab.reaschedule.Adapters.MessagesAdapter;
 import styleru.it_lab.reaschedule.Adapters.SamplePageAdapter;
 import styleru.it_lab.reaschedule.Operations.DateOperations;
 import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.Operations.NetworkOperations;
 import styleru.it_lab.reaschedule.Operations.OtherOperations;
+import styleru.it_lab.reaschedule.Schedule.Message;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -102,6 +106,24 @@ public class AccountActivity extends AppCompatActivity {
         }
     };
 
+    private View getMessagesPage()
+    {
+        ArrayList<Message> messages = MemoryOperations.DBGetMessages(this);
+        if (messages.size() == 0)
+        {
+            View emptyMsg = inflater.inflate(R.layout.account_messages_empty, null);
+            return emptyMsg;
+        }
+        else
+        {
+            View msg = inflater.inflate(R.layout.account_messages, null);
+            ListView list = (ListView) msg.findViewById(R.id.listMessages);
+            MessagesAdapter msgAdapter = new MessagesAdapter(this, messages);
+            list.setAdapter(msgAdapter);
+            return msg;
+        }
+    }
+
     private void setViewPagerContent()
     {
         View page;
@@ -110,7 +132,7 @@ public class AccountActivity extends AppCompatActivity {
         page = inflater.inflate(R.layout.account_changings, null);
         pages.add(page);
 
-        page = inflater.inflate(R.layout.account_messages, null);
+        page = getMessagesPage();
         pages.add(page);
 
         SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
@@ -145,7 +167,6 @@ public class AccountActivity extends AppCompatActivity {
         memberID = Integer.parseInt(result.get("ID"));
         memberName = result.get("name");
         memberWho = result.get("who");
-        Log.i(DEBUG_TAG, "Got results! ID: " + Integer.toString(memberID) + "; Name: " + memberName + " is " + memberWho);
 
         if (memberID == 0)
         {
@@ -337,14 +358,12 @@ public class AccountActivity extends AppCompatActivity {
 
                 switch (checkedId) {
                     case R.id.radBStudent:
-                        Log.i(DEBUG_TAG, "CHECHKED STUDENT");
                         txtChangeID.setHint(getString(R.string.login1_student_placeholder));
                         txtChangeID.setText("");
                         members = membersGroups;
                         Log.i(DEBUG_TAG, "Students size: " + membersGroups.size());
                         break;
                     case R.id.radBLector:
-                        Log.i(DEBUG_TAG, "CHECHKED LECTOR");
                         txtChangeID.setHint(getString(R.string.login1_lector_placeholder));
                         txtChangeID.setText("");
                         members = membersLectors;

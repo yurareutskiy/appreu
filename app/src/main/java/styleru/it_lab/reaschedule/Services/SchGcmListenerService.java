@@ -13,6 +13,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import styleru.it_lab.reaschedule.MainMenuActivity;
+import styleru.it_lab.reaschedule.Operations.MemoryOperations;
 import styleru.it_lab.reaschedule.R;
 
 public class SchGcmListenerService extends  GcmListenerService{
@@ -22,10 +23,13 @@ public class SchGcmListenerService extends  GcmListenerService{
     @Override
     public void onMessageReceived(String from, Bundle data)
     {
-        String message = data.getString("message");
         Log.i(DEBUG_TAG, "Received message from: " + from);
-        Log.i(DEBUG_TAG, "The Message is: " + message);
 
+        if (from.startsWith("/topics/")) {
+            MemoryOperations.DBAddMessage(SchGcmListenerService.this, data);
+        }
+
+        String message = data.getString("message");
         sendNotification(message);
     }
 
@@ -37,8 +41,8 @@ public class SchGcmListenerService extends  GcmListenerService{
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
-                .setContentTitle("Сообщение из облака!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Новое сообщение!")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

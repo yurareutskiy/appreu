@@ -8,14 +8,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import styleru.it_lab.reaschedule.R;
+import styleru.it_lab.reaschedule.Schedule.Message;
 import styleru.it_lab.reaschedule.Schedule.Week;
 
 public class MemoryOperations {
@@ -89,21 +92,23 @@ public class MemoryOperations {
 
     public static class ScheduleDBHelper extends SQLiteOpenHelper {
 
+        public static final int DATABASE_VERSION = 2;
+        public static final String DATABASE_NAME = "scheduleDB";
+
         public static final String DATABASE_TABLE_GROUPS = "sch_groups";
         public static final String MEMBERS_NAME_COLUMN = "name";
         public static final String MEMBERS_ID_COLUMN = "id";
 
         public static final String DATABASE_TABLE_LECTORS = "sch_lectors";
 
-        public static final String DATABASE_TABLE_LESSONS = "sch_lessons";
-        public static final String LESSONS_COLUMN_WHO = "who";
-        public static final String LESSONS_COLUMN_WHO_ID = "who_id";
-        public static final String LESSONS_COLUMN_HASH_ID = "hash_id";
-        public static final String LESSONS_COLUMN_WEEK = "week";
+        public static final String DATABASE_TABLE_MESSAGES = "sch_messages";
+        public static final String MESSAGES_ID_COLUMN = "_id";
+        public static final String MESSAGES_MESSAGE_COLUMN = "message";
+        public static final String MESSAGES_DATE_COLUMN = "date";
 
         public ScheduleDBHelper (Context context)
         {
-            super(context, "scheduleDB", null, 1);
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         @Override
@@ -116,12 +121,18 @@ public class MemoryOperations {
             db.execSQL("create table " + DATABASE_TABLE_LECTORS + "("
                     + "id integer primary key,"
                     + MEMBERS_NAME_COLUMN + " text" + ");");
+
+            db.execSQL("create table " + DATABASE_TABLE_MESSAGES + "("
+                    + "_id INTEGER PRIMARY KEY,"
+                    + MESSAGES_MESSAGE_COLUMN + " text,"
+                    + MESSAGES_DATE_COLUMN + " text" + ");");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE_GROUPS);
-            db.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE_LECTORS);
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_GROUPS);
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_LECTORS);
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_MESSAGES );
             // Создаём новую таблицу
             onCreate(db);
         }
@@ -205,5 +216,56 @@ public class MemoryOperations {
                 }
             }
         }
+    }
+
+    public static void DBAddMessage(Context context, Bundle data)
+    {
+        String message = data.getString("message");
+        String date = data.getString("date");
+
+        ScheduleDBHelper dbHelper = new ScheduleDBHelper(context);
+        SQLiteDatabase DB = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(ScheduleDBHelper.MESSAGES_MESSAGE_COLUMN, message);
+        cv.put(ScheduleDBHelper.MESSAGES_DATE_COLUMN, date);
+        long rowID = DB.insert(ScheduleDBHelper.DATABASE_TABLE_MESSAGES, null, cv);
+
+        Log.i(DEBUG_TAG, "Inserted row ID is: " + rowID);
+
+        dbHelper.close();
+    }
+
+    public static ArrayList<Message> DBGetMessages(Context context)
+    {
+        ArrayList<Message> messages = new ArrayList<>();
+
+        ScheduleDBHelper dbHelper = new ScheduleDBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Cursor c = db.query(ScheduleDBHelper.DATABASE_TABLE_MESSAGES, null, null, null, null, null, ScheduleDBHelper.MESSAGES_ID_COLUMN + " DESC");
+
+        if (c.moveToFirst()) {
+            // определяем номера столбцов по имени в выборке
+            int idColIndex = c.getColumnIndex("_id");
+            int messageColIndex = c.getColumnIndex("message");
+            int dateColIndex = c.getColumnIndex("date");
+
+            Log.d(DEBUG_TAG, "Getting data from table " + ScheduleDBHelper.DATABASE_TABLE_MESSAGES);
+            do {
+                int id = c.getInt(idColIndex);
+                String message = c.getString(messageColIndex);
+                String date = c.getString(dateColIndex);
+                Message msg = new Message(id, message, date);
+
+                messages.add(msg);
+            } while (c.moveToNext());
+        } else
+            Log.d(DEBUG_TAG, "0 rows from " + ScheduleDBHelper.DATABASE_TABLE_MESSAGES);
+
+        c.close();
+        db.close();
+
+        return messages;
     }
 }

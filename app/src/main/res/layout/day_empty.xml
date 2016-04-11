@@ -43,7 +43,8 @@
             android:textSize="18dp"
             android:layout_marginTop="9dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:lineSpacingMultiplier="1.2" />
     </LinearLayout>
 
 </RelativeLayout>

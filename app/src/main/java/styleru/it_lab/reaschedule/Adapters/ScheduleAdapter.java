@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
+import android.media.Image;
+import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import styleru.it_lab.reaschedule.Operations.DateOperations;
@@ -21,6 +26,7 @@ public class ScheduleAdapter extends BaseAdapter {
     ArrayList<Lesson> objects;
     String memberWho = "";
     boolean current = false;
+    public View currentView = null;
 
     public ScheduleAdapter(Context context, ArrayList<Lesson> lessons) {
         ctx = context;
@@ -71,6 +77,7 @@ public class ScheduleAdapter extends BaseAdapter {
             if (current && p.number == DateOperations.getCurrentLessonNumber())
             {
                 view = lInflater.inflate(R.layout.schedule_list_item_current, parent, false);
+                currentView = view;
             }
             else
             {
@@ -108,8 +115,6 @@ public class ScheduleAdapter extends BaseAdapter {
                     }
                 }
             }
-
-
 
             ((TextView) view.findViewById(R.id.sch_txtInfo)).setText(p.type + " | " + weeks + " |" + lector);
         }

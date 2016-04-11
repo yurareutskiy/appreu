@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class SearchActivity extends AppCompatActivity {
     int searchID = 0;
     ScheduleUIManager scheduleManager;
     TextViewCustomFont actionBarWeek;
+    SamplePageAdapter pagerAdapter;
+    ViewPager viewPager;
 
     //TODO 3. Implement RefreshButton onClick Listener! Now it Causes Crash!
     @Override
@@ -65,6 +68,7 @@ public class SearchActivity extends AppCompatActivity {
         setupActionBar();
 
         getActionBarWeek();
+        scheduleManager.setTxtWeek(actionBarWeek);
 
         searchTxt = (AutoCompleteTextViewCustomFont) findViewById(R.id.searchTxt);
         if (searchTxt == null)
@@ -322,8 +326,8 @@ public class SearchActivity extends AppCompatActivity {
         List<View> pages = scheduleManager.getScheduleAsUI(searchWho + "s");
 
         //делишки со слайдингом для недель
-        SamplePageAdapter pagerAdapter = new SamplePageAdapter(pages);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new SamplePageAdapter(pages);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setVisibility(View.VISIBLE);
         findViewById(R.id.refreshLinLay).setVisibility(View.GONE);
@@ -334,14 +338,23 @@ public class SearchActivity extends AppCompatActivity {
         viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
 
         actionBarWeek.setVisibility(View.VISIBLE);
+        scheduleManager.setViewPager(viewPager);
     }
 
     ViewPager.OnPageChangeListener pageChangeListener = new  ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageSelected(int position) {
-            Log.i(DEBUG_TAG, "PAGE CHANGED TO " + position);
-            actionBarWeek.setText(Integer.toString(scheduleManager.getWeek(position).getWeekNum()) + " неделя");
+            Week selectedWeek = scheduleManager.getWeek(position);
+            TabHost tabHost = (TabHost)viewPager.findViewWithTag("tabHost" + position);
+
+            if (tabHost != null) {
+                tabHost.setCurrentTab(scheduleManager.getDaySelected());
+            }
+
+            String date = selectedWeek.getDay(scheduleManager.getDaySelected()).getDate();
+            if (actionBarWeek != null)
+                actionBarWeek.setText(Integer.toString(selectedWeek.getWeekNum()) + " неделя, " + date);
         }
 
         @Override

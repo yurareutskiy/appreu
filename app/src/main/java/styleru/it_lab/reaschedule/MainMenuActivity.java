@@ -125,8 +125,9 @@ public class MainMenuActivity extends AppCompatActivity {
             Log.i(DEBUG_TAG, "Loaded schedule from cache! Vot tak!");
             scheduleManager.setWeeks(tmpWeeks);
 
-            fillScheduleWithData();
             fillActionBarWithData();
+            fillScheduleWithData();
+
             dialog.cancel();
         }
     }
@@ -135,29 +136,7 @@ public class MainMenuActivity extends AppCompatActivity {
     {
         RelativeLayout actionBarView = (RelativeLayout) actionBar.getCustomView();
         Log.i(DEBUG_TAG, actionBarView.findViewById(R.id.txtWeek) + "");
-        /*int childCount = actionBarView.getChildCount();
-        for (int i = 0; i < childCount; i++)
-        {
-            View child = actionBarView.getChildAt(i);
-            if (child.getId() == R.id.linLayInfo)
-            {
-                LinearLayout linearLayout = (LinearLayout) child;
 
-                TextView textView = (TextView) linearLayout.getChildAt(0);
-
-                if (memberWho.equals(getString(R.string.WHO_LECTOR))) {
-                    textView.setText(OtherOperations.shortName(memberName));
-                }
-                else
-                {
-                    textView.setText(memberName);
-                }
-
-                actionBarWeek = (TextViewCustomFont) linearLayout.getChildAt(1);
-                actionBarWeek.setText(Integer.toString(scheduleManager.getCurrentWeekNum()) + " неделя, " + scheduleManager.getDate());
-                scheduleManager.setTxtWeek(actionBarWeek);
-            }
-        }*/
         TextView textView = (TextViewCustomFont) actionBarView.findViewById(R.id.txtGroup);
         if (memberWho.equals(getString(R.string.WHO_LECTOR))) {
             textView.setText(OtherOperations.shortName(memberName));
@@ -190,6 +169,7 @@ public class MainMenuActivity extends AppCompatActivity {
         viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setCurrentItem(scheduleManager.currentWeekNumToIndex());
+        actionBarWeek.setVisibility(View.VISIBLE);
         scheduleManager.setViewPager(viewPager);
     }
 
@@ -243,8 +223,9 @@ public class MainMenuActivity extends AppCompatActivity {
             {
                 MemoryOperations.cacheSchedule(getApplicationContext(), response, memberWho, memberID);
 
-                fillScheduleWithData();
                 fillActionBarWithData();
+                fillScheduleWithData();
+
             }
         }
     };
@@ -304,8 +285,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            Log.i(DEBUG_TAG, "PAGE CHANGED TO " + position);
-
             Week selectedWeek = scheduleManager.getWeek(position);
             TabHost tabHost = (TabHost)viewPager.findViewWithTag("tabHost" + position);
 

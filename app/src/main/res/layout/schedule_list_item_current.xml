@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent" android:layout_height="150dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:id="@+id/sch_relLayout"
-    android:background="#e3e3e3">
+    android:background="#e3e3e3"
+    android:paddingBottom="15dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -12,7 +14,8 @@
         android:gravity="left|center_vertical"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:id="@+id/linearLayout">
 
         <ImageView
             android:layout_width="20dp"
@@ -56,25 +59,6 @@
     </LinearLayout>
 
     <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
-        android:id="@+id/sch_txtInfo"
-        android:layout_below="@+id/sch_txtLesson"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentLeft="true"
-        android:gravity="bottom"
-        android:layout_alignParentStart="true"
-        app:customFont="HelveticaNeueCyr_Light"
-        android:textColor="#616161"
-        android:lineSpacingMultiplier="1.2"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="15dp" />
-
-    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Основы Объектно-ориентированного Программирования"
@@ -82,19 +66,39 @@
         android:textColor="#0076ff"
         android:textSize="17dp"
         android:gravity="center_vertical"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLines="2"
         app:customFont="HelveticaNeueCyr_Bold"
         android:lineSpacingMultiplier="1.2"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/linearLayout"/>
+
+    <styleru.it_lab.reaschedule.CustomFontViews.TextViewCustomFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Практическое занятие | 12-16 недели | Асламазишвили С.С."
+        android:id="@+id/sch_txtInfo"
+        android:layout_below="@+id/sch_txtLesson"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:customFont="HelveticaNeueCyr_Light"
+        android:textColor="#616161"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
     <ImageView
-        android:layout_width="5dp"
-        android:layout_height="match_parent"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:id="@+id/imgVerticalLine"
-        android:background="@color/schedule_blue_dark" />
+        android:background="@color/schedule_blue_dark"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="false"
+         />
 
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

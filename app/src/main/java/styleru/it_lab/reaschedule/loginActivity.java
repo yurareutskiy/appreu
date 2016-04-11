@@ -108,6 +108,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        MemoryOperations.ScheduleDBHelper checkDBUpdates = new MemoryOperations.ScheduleDBHelper(this);
+
         Map<String, String> result = MemoryOperations.getSharedPreferences(getApplicationContext());
         memberID = Integer.parseInt(result.get("ID"));
         memberName = result.get("name");
